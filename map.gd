@@ -8,8 +8,8 @@ var task_locations = []
 
 func _ready():
 	#unit = 200
-	var u = 200
-	var t = 50 #wall thickness
+	var u = 400
+	var t = 100#wall thickness
 	
 	#Main Area
 	#Q1 right
@@ -204,7 +204,233 @@ func _ready():
 	instance.setUp(Vector2(t, 3 * u), Vector2(4 * u - 0.5 * t, -8.5 * u), 0)
 	add_child(instance)
 	
+	#Yellow
+	#1
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(4.5 * u, 1 * u + 0.5 * t), 0)
+	add_child(instance)
+	#2
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(4.5 * u, -0.5 * t), 0)
+	add_child(instance)
+	#3
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(6 * u - 0.5 * t, -1.5 * u), 0)
+	add_child(instance)
+	#4
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(7 * u, -3 * u - 0.5 * t), 0)
+	add_child(instance)
+	#5
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(8 * u - 0.5 * t, -4.5 * u), 0)
+	add_child(instance)
+	#6
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 4 * u), Vector2(9 * u + 0.5 * t, -5 * u), 0)
+	add_child(instance)
+	#7
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(10 * u, -3 * u - 0.5 * t), 0)
+	add_child(instance)
+	#8
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(11 * u - 0.5 * t, -4 * u), 0)
+	add_child(instance)
+	#9
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(12.5 * u, -5 * u - 0.5 * t), 0)
+	add_child(instance)
+	#10
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(14 * u + 0.5 * t, -4 * u), 0)
+	add_child(instance)
+	#11
+	instance = SS.instantiate()
+	instance.setUp(Vector2(u, t), Vector2(14.5 * u, -3 * u - 0.5 * t), 0)
+	add_child(instance)
+	#12
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(15 * u + 0.5 * t, -2 * u), 0)
+	add_child(instance)
+	#13
+	instance = SS.instantiate()
+	instance.setUp(Vector2(u, t), Vector2(15.5 * u, -1 * u - 0.5 * t), 0)
+	add_child(instance)
+	#14
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(16 * u + 0.5 * t, 0.5 * u), 0)
+	add_child(instance)
+	#15
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(15 * u, 2 * u + 0.5 * t), 0)
+	add_child(instance)
+	#16
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 4 * u), Vector2(14 * u - 0.5 * t, 4 * u), 0)
+	add_child(instance)
+	#17
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(13 * u - 0.5 * t, 3.5 * u), 0)
+	add_child(instance)
+	#18
+	instance = SS.instantiate()
+	instance.setUp(Vector2(7 * u, t), Vector2(9.5 * u, 2 * u + 0.5 * t), 0)
+	add_child(instance)
+	#19
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, u), Vector2(6 * u - 0.5 * t, 1.5 * u), 0)
+	add_child(instance)
+	#20
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(8 * u + 0.5 * t, -1 * u), 0)
+	add_child(instance)
+	#21
+	instance = SS.instantiate()
+	instance.setUp(Vector2(6 * u, t), Vector2(11 * u, -2 * u + 0.5 * t), 0)
+	add_child(instance)
+	#22
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, u), Vector2(14 * u - 0.5 * t, -1.5 * u), 0)
+	add_child(instance)
+	#23
+	instance = SS.instantiate()
+	instance.setUp(Vector2(u, t), Vector2(13.5 * u, -1 * u - 0.5 * t), 0)
+	add_child(instance)
+	#24
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(13 * u - 0.5 * t, 0), 0)
+	add_child(instance)
+	#25
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(12 * u, 1 * u - 0.5 * t), 0)
+	add_child(instance)
+	#26
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, u), Vector2(11 * u + 0.5 * t, 0.5 * u), 0)
+	add_child(instance)
+	#27
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(9.5 * u, 0.5 * t), 0)
+	add_child(instance)
 	
+	#Green
+	#1
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(-0.5 * t, 4.5 * u), 0)
+	add_child(instance)
+	#2
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(u + 0.5 * t, 4.5 * u), 0)
+	add_child(instance)
+	#3
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(2.5 * u, 6 * u - 0.5 * t), 0)
+	add_child(instance)
+	#4
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, u), Vector2(4 * u - 0.5 * t, 5.5 * u), 0)
+	add_child(instance)
+	#5
+	instance = SS.instantiate()
+	instance.setUp(Vector2(9 * u, t), Vector2(8.5 * u, 5 * u - 0.5 * t), 0)
+	add_child(instance)
+	#6
+	instance = SS.instantiate()
+	instance.setUp(Vector2(7 * u, t), Vector2(10.5 * u, 6 * u + 0.5 * t), 0)
+	add_child(instance)
+	#7
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(7 * u + 0.5 * t,7 * u), 0)
+	add_child(instance)
+	#8
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(6 * u, 8 * u + 0.5 * t), 0)
+	add_child(instance)
+	#9
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(5 * u + 0.5 * t, 9 * u), 0)
+	add_child(instance)
+	#10
+	instance = SS.instantiate()
+	instance.setUp(Vector2(u ,t), Vector2(5.5 * u, 10 * u - 0.5 * t), 0)
+	add_child(instance)
+	#11
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(6 * u + 0.5 * t, 11.5 * u), 0)
+	add_child(instance)
+	#12
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(4.5 * u, 13 * u + 0.5 * t), 0)
+	add_child(instance)
+	#13
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, u), Vector2(3 * u - 0.5 * t, 12.5 * u), 0)
+	add_child(instance)
+	#14
+	instance = SS.instantiate()
+	instance.setUp(Vector2(4 * u, t), Vector2(u, 12 * u + 0.5 * t), 0)
+	add_child(instance)
+	#15
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(-1 * u - 0.5 * t, 10.5 * u), 0)
+	add_child(instance)
+	#16
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(-2 * u, 9 * u + 0.5 * t), 0)
+	add_child(instance)
+	#17
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 4 * u), Vector2(-3 * u - 0.5 * t, 7 * u), 0)
+	add_child(instance)
+	#18
+	instance = SS.instantiate()
+	instance.setUp(Vector2(6 * u, t), Vector2(-6 * u, 5 * u + 0.5 * t), 0)
+	add_child(instance)
+	#19
+	instance = SS.instantiate()
+	instance.setUp(Vector2(6 * u, t), Vector2(-5 * u, 4 * u - 0.5 * t), 0)
+	add_child(instance)
+	#20
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(-2 * u + 0.5 * t, 5 * u), 0)
+	add_child(instance)
+	#21
+	instance = SS.instantiate()
+	instance.setUp(Vector2(2 * u, t), Vector2(-1 * u, 6 * u - 0.5 * t), 0)
+	add_child(instance)
+	#22
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(2.5 * u, 7 * u + 0.5 * t), 0)
+	add_child(instance)
+	#23
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 3 * u), Vector2(4 * u - 0.5 * t, 8.5 * u), 0)
+	add_child(instance)
+	#24
+	instance = SS.instantiate()
+	instance.setUp(Vector2(u, t), Vector2(3.5 * u, 10 * u - 0.5 * t), 0)
+	add_child(instance)
+	#25
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, u), Vector2(3 * u - 0.5 * t, 10.5 * u), 0)
+	add_child(instance)
+	#26
+	instance = SS.instantiate()
+	instance.setUp(Vector2(3 * u, t), Vector2(1.5 * u, 11 * u - 0.5 * t), 0)
+	add_child(instance)
+	#27
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(0.5 * t, 10 * u), 0)
+	add_child(instance)
+	#28
+	instance = SS.instantiate()
+	instance.setUp(Vector2(u, t), Vector2(0.5 * u, 9 * u + 0.5 * t), 0)
+	add_child(instance)
+	#29
+	instance = SS.instantiate()
+	instance.setUp(Vector2(t, 2 * u), Vector2(u + 0.5 * t, 8 * u), 0)
+	add_child(instance)
 	
 	
 	#create all map elements

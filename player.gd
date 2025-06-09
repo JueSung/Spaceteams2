@@ -3,7 +3,7 @@ class_name Player
 
 var my_ID
 
-const SPEED = 420 * 3
+const SPEED = 840 * 3
 
 #user input info ---------
 var left = false
@@ -39,7 +39,7 @@ func _ready():
 	
 
 func _process(delta):
-	print(global_position)
+
 	
 	
 	#left, right
