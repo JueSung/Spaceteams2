@@ -1,10 +1,12 @@
 extends Node
 class_name Multiplayer_Processing
 #handles game state related multiplayer network stuff
+#also for now client input and client specific rendering stuff
 
 var inputs = {}
 var my_ID = 1 #for instantiation
 #var in_a_game = false #only collects inputs if in a game
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,6 +21,8 @@ func _ready():
 		"mouse_position_x" : 0,
 		"mouse_position_y" : 0
 	}
+	
+	
 
 func set_ID(id):
 	my_ID = id
@@ -127,6 +131,35 @@ func recieve_from_client_player_function(id, function_name, args):
 	player.callv(function_name, args)
 
 #-------------------------------------------------
+
+#input stuff
+func _input(event):
+	
+	if event.is_action_pressed("ESC"):
+		print("RAN")
+		mapStuff()
+
+var map_open = false
+#Map stuff
+func mapStuff():
+	$viewMapHUD/TextureRect.texture = $viewMapViewport.get_texture()
+	if not map_open:
+		$viewMapHUD.visible = true
+		map_open = true
+	else:
+		$viewMapHUD.visible = false
+		map_open = false
+
+
+
+
+
+
+
+
+
+
+
 
 
 

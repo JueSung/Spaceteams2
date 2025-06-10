@@ -43,31 +43,25 @@ func _ready():
 func _process(delta):
 	
 	
-	
+	var direction = Vector2(0,0)
 	#left, right
-	var h_direction = 0
 	if right:
-		h_direction += 1
+		direction.x += 1
 	if left:
-		h_direction -= 1
-	
-	if h_direction:
-		velocity.x = move_toward(velocity.x, h_direction * SPEED, SPEED * delta * 30)
-		
-	else:
-		velocity.x = move_toward(velocity.x, 0, 20 * SPEED * delta)
+		direction.x -= 1
 	
 	#up, down
 	var v_direction = 0
 	if up:
-		v_direction -= 1
+		direction.y -= 1
 	if down:
-		v_direction += 1
+		direction.y += 1
 	
-	if v_direction:
-		velocity.y = move_toward(velocity.y, v_direction * SPEED, SPEED * delta * 30)
+	if direction:
+		direction = direction.normalized()
+		velocity = velocity.move_toward(direction * SPEED, SPEED * delta * 30)
 	else:
-		velocity.y = move_toward(velocity.y, 0, 20 * SPEED * delta)
+		velocity = velocity.move_toward(Vector2(0,0), 20 * SPEED * delta)
 		
 	
 	

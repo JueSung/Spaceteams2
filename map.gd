@@ -295,7 +295,7 @@ func wallSetUp():
 	add_child(instance)
 	#16
 	instance = SS.instantiate()
-	instance.setUp(Vector2(t, 4 * u), Vector2(14 * u - 0.5 * t, 4 * u), 0)
+	instance.setUp(Vector2(t, 4 * u), Vector2(14 * u + 0.5 * t, 4 * u), 0)
 	add_child(instance)
 	#17
 	instance = SS.instantiate()
