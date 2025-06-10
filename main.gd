@@ -152,6 +152,11 @@ func _process(delta):
 		$Multiplayer_Processing.send_delete_objects(objects_to_be_deleted)
 		objects_to_be_deleted = []
 
+#generally called by multiplayer_processing to get player objects
+func get_player_objects():
+	return player_objects
+
+
 #called either by client from msg from server or part of server game state
 func delete_player(id):
 	if my_ID == 1:

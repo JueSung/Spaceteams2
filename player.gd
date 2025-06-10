@@ -103,31 +103,27 @@ func interactable_area_exited(area):
 		if len(task_locations) == 0:
 			$HUD/InteractButton.visible = false
 
-#only runs on client on own player
-@rpc ("any_peer", "reliable")
+#runs on client on own player or called by multiplayer_processing after rpc call
 func interact_button_pressed():
+	inTask = true
 	if main.my_ID == 1:
-		print("RAn")
-		set_process(false)
+		set_process(false) #stop moving if in a task
 	if main.my_ID == my_ID:
 		if len(task_locations) > 0: #should always be true but for crash avoidance
 			task_locations[0].open(self)
-			inTask = true
-			print(main.my_ID)
 			if main.my_ID != 1:
-				print("RAN")
-				rpc_id(1, "interact_button_pressed")
+				main.get_node("Multiplayer_Processing").\
+				send_to_server_player_function(my_ID, "interact_button_pressed", [])
 	
 
-#called by task location in client or rpc from player to tell can move again
-@rpc ("any_peer", "reliable")
+#called by task location in client or fro multiplayer_processing rpc
 func close_task():
+	inTask = false
 	if main.my_ID == my_ID:
-		inTask = false
 		if main.my_ID != 1:
-			rpc_id(1, "close_task")
+			main.get_node("Multiplayer_Processing").\
+			send_to_server_player_function(my_ID, "close_task", [])
 	if main.my_ID == 1:
-		print("ran")
 		set_process(true)
 
 

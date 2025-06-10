@@ -116,6 +116,19 @@ func recieve_end_game():
 	get_parent().end_game()
 
 
+#player stuff-----------------------------------------------
+#id is id num of player object, function_name is function name, args is list of arguments for function
+func send_to_server_player_function(id, function_name, args):
+	rpc_id(1, "recieve_from_client_player_function", id, function_name, args)
+
+@rpc("any_peer", "reliable")
+func recieve_from_client_player_function(id, function_name, args):
+	var player = get_parent().get_player_objects()[id]
+	player.callv(function_name, args)
+
+#-------------------------------------------------
+
+
 
 #is called by main when game starts
 func is_in_a_game(id):
