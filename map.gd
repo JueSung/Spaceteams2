@@ -1,17 +1,45 @@
 extends Node2D
 class_name Map
-#gonna say rn theres only one possible map
+#rn theres only one possible map
+
+#unit = 200
+var u = 400
+var t = 100#wall thickness
 
 var SS = preload("res://surface.tscn")
+var TS = preload("res://task_location.tscn")
 
 var task_locations = []
 
 func _ready():
-	#unit = 200
-	var u = 400
-	var t = 100#wall thickness
+	wallSetUp()
 	
-	#Main Area
+	var buttonTask = TS.instantiate()
+	buttonTask.global_position = Vector2(0,0)
+	add_child(buttonTask)
+	var bTask = preload("res://Tasks/button_task.tscn").instantiate()
+	buttonTask.assign_task(bTask)
+	buttonTask.add_child(bTask)
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+func wallSetUp():
+
+	##Main Area
 	#Q1 right
 	var instance = SS.instantiate()
 	instance.setUp(Vector2(t, 3 * u), Vector2(3 * u + 0.5 * t, -1.5 * u), 0)
@@ -52,7 +80,7 @@ func _ready():
 	instance.setUp(Vector2(t, 2 * u), Vector2(3 * u + 0.5 * t, 2 * u), 0)
 	add_child(instance)
 	
-	#Pink Area
+	##Pink Area
 	#1
 	instance = SS.instantiate()
 	instance.setUp(Vector2(4 * u, t), Vector2(-5 * u, -1 * u - 0.5 * t), 0)
@@ -138,7 +166,7 @@ func _ready():
 	instance.setUp(Vector2(t, u), Vector2(-9 * u + 0.5 * t, -6.5 * u), 0)
 	add_child(instance)
 	
-	#Blue
+	##Blue
 	#1
 	instance = SS.instantiate()
 	instance.setUp(Vector2(t, 3 * u), Vector2(-1 * u - 0.5 * t, -4.5 * u), 0)
@@ -204,7 +232,7 @@ func _ready():
 	instance.setUp(Vector2(t, 3 * u), Vector2(4 * u - 0.5 * t, -8.5 * u), 0)
 	add_child(instance)
 	
-	#Yellow
+	##Yellow
 	#1
 	instance = SS.instantiate()
 	instance.setUp(Vector2(3 * u, t), Vector2(4.5 * u, 1 * u + 0.5 * t), 0)
@@ -314,7 +342,7 @@ func _ready():
 	instance.setUp(Vector2(3 * u, t), Vector2(9.5 * u, 0.5 * t), 0)
 	add_child(instance)
 	
-	#Green
+	##Green
 	#1
 	instance = SS.instantiate()
 	instance.setUp(Vector2(t, 3 * u), Vector2(-0.5 * t, 4.5 * u), 0)

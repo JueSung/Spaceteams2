@@ -3,21 +3,21 @@
 [ext_resource type="Script" uid="uid://bxtt7ikdfd36t" path="res://player.gd" id="1_4flbx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
-size = Vector2(40, 40)
+size = Vector2(80, 80)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
-radius = 70.71
+radius = 120.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_4flbx")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(2.2545, 2.4528)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sh265")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.5, 1.5)
 
 [node name="InteractableArea" type="Area2D" parent="."]
 collision_layer = 4
@@ -29,8 +29,8 @@ shape = SubResource("CircleShape2D_4flbx")
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="InteractButton" type="Button" parent="HUD"]
-offset_left = 1722.0
-offset_top = 1003.0
+offset_left = 1524.0
+offset_top = 926.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 theme_override_font_sizes/font_size = 50

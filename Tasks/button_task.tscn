@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckbonvoqdpvc1"]
+
+[ext_resource type="Script" uid="uid://mlis1v3ou5sx" path="res://Tasks/button_task.gd" id="1_umsm3"]
+
+[node name="Button_Task" type="Node2D"]
+script = ExtResource("1_umsm3")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Area_catcher" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Mouse_blocker" type="Control" parent="HUD/Area_catcher"]
+anchors_preset = 0
+offset_left = 460.0
+offset_top = 340.0
+offset_right = 1460.0
+offset_bottom = 740.0
+
+[node name="Button" type="Button" parent="HUD/Area_catcher"]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 340.0
+offset_right = 1460.0
+offset_bottom = 740.0
+
+[connection signal="gui_input" from="HUD/Area_catcher" to="." method="click_outside_task"]
+[connection signal="pressed" from="HUD/Area_catcher/Button" to="." method="bigButton"]

@@ -12,6 +12,8 @@ var objects = {} #types: Sawblade, Boom
 var objects_datas = {}
 var objects_to_be_deleted = []
 
+var states = {} #player_datas + objects_datas
+
 var PlayerScene = preload("res://player.tscn")
 var MapScene = preload("res://map.tscn")
 
@@ -136,13 +138,17 @@ func _process(delta):
 				player_objects[id].update_inputs(players_inputs[id])
 			
 			player_datas[id] = player_objects[id].get_data()
-		$Multiplayer_Processing.send_player_info(player_datas)
+		#$Multiplayer_Processing.send_player_info(player_datas)
 		
 		for key in objects:
 			if is_instance_valid(objects[key]):
 				objects_datas[key] = objects[key].get_data()
 		
-		$Multiplayer_Processing.send_object_states(objects_datas) #handles objects to be added via seeing new objects
+		#$Multiplayer_Processing.send_object_states(objects_datas) #handles objects to be added via seeing new objects
+		states["player_datas"] = player_datas
+		states["objects_datas"] = objects_datas
+		$Multiplayer_Processing.send_states(states)
+		
 		$Multiplayer_Processing.send_delete_objects(objects_to_be_deleted)
 		objects_to_be_deleted = []
 

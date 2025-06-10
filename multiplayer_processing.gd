@@ -45,7 +45,7 @@ func send_inputs_to_server(packet: Variant):
 		recieve_client_inputs(1, packet)
 
 #recieving client inputs from client Main
-@rpc("any_peer", "reliable")
+@rpc("any_peer", "unreliable")
 func recieve_client_inputs(id, packet):
 	var inputs = JSON.parse_string(packet)
 	get_parent().set_player_inputs(id, inputs)
@@ -63,12 +63,12 @@ func recieve_start_game():
 #recieve update information for a particular object based on some id string thing
 
 #called by main to send out updated player info
-func send_player_info(player_datas):
-	rpc_id(0, "recieve_player_info", player_datas)
+#func send_player_info(player_datas):
+#	rpc_id(0, "recieve_player_info", player_datas)
 
-@rpc("any_peer", "reliable")
-func recieve_player_info(player_datas):
-	get_parent().update_player_datas(player_datas)
+#@rpc("any_peer", "reliable")
+#func recieve_player_info(player_datas):
+#	get_parent().update_player_datas(player_datas)
 	
 #called by server to send out msg to clients to delete a particular player bc dead prob
 func send_delete_player(id):
@@ -79,17 +79,27 @@ func recieve_delete_player(id):
 	get_parent().delete_player(id)
 
 #called by main to send out updates for object game states; handles creation of objects by seeing new objects
-func send_object_states(objects_datas):
-	rpc_id(0, "recieve_object_states", objects_datas)
+#func send_object_states(objects_datas):
+#	rpc_id(0, "recieve_object_states", objects_datas)
 
 #recieve object game states and new objects for creation
-@rpc("any_peer", "reliable")
-func recieve_object_states(objects_datas):
-	get_parent().update_object_states(objects_datas)
+#@rpc("any_peer", "reliable")
+#func recieve_object_states(objects_datas):
+#	get_parent().update_object_states(objects_datas)
+
+#called by main to send out updates for both player and object states
+func send_states(states):
+	rpc_id(0, "recieve_states", states)
+
+@rpc("any_peer", "unreliable")
+func recieve_states(states):
+	get_parent().update_player_datas(states["player_datas"])
+	get_parent().update_object_states(states["objects_datas"])
 
 #send info to delete object
 func send_delete_objects(objects_to_be_deleted):
-	rpc_id(0, "recieve_delete_objects", objects_to_be_deleted)
+	if len(objects_to_be_deleted) > 0:
+		rpc_id(0, "recieve_delete_objects", objects_to_be_deleted)
 
 #recieve information to delete object
 @rpc("any_peer", "reliable")
