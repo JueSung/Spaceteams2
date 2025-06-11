@@ -1,24 +1,19 @@
 extends Node2D
+class_name Button_Task
 #completely ran by client(s) and only vital/relavent info sent to server for game state processing
 
-var player_object 
+var main #instantiated in ready
 
 func _ready():
-	$HUD.visible = false
+	main = get_tree().root.get_node("Main")
 
 #called by assigned task_location object
 func open():
-	$HUD.visible = true
-
+	pass
 
 
 
 
 func bigButton():
-	print("WOOOHOOOO")
-
-
-func click_outside_task(event):
-	if event is InputEventMouseButton and event.pressed:
-		$HUD.visible = false
-		get_parent().close()
+	print("Big button pressed")
+	main.get_node("Multiplayer_Tasks").bigButtonPressed()

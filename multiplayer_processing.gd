@@ -136,27 +136,7 @@ func recieve_from_client_player_function(id, function_name, args):
 func _input(event):
 	
 	if event.is_action_pressed("ESC"):
-		print("RAN")
-		mapStuff()
-
-var map_open = false
-#Map stuff
-func mapStuff():
-	$viewMapHUD/TextureRect.texture = $viewMapViewport.get_texture()
-	if not map_open:
-		$viewMapHUD.visible = true
-		map_open = true
-	else:
-		$viewMapHUD.visible = false
-		map_open = false
-
-
-
-
-
-
-
-
+		print("Hit ESC")
 
 
 

@@ -37,10 +37,30 @@ func _ready():
 func set_ID(id):
 	my_ID = id
 	$Multiplayer_Processing.set_ID(id)
+	$Multiplayer_Tasks.set_ID(id)
+	
+	#initialize map
+	var map = MapScene.instantiate()
+	add_child(map)
+	currMap = map
 
 #recieved from lobby _register_player when player joins both server and clients
+#also already runs for self
 func add_player(peer_id: Variant, _player_info: Variant):
 	players_IDs.append(peer_id)
+	var player_instance = PlayerScene.instantiate()
+	player_instance.set_ID(peer_id)
+	
+	#figure out player position, may be handled by Map in the future
+	if my_ID == 1:
+		# do some calculation to figure out placements of players
+		player_instance.position = Vector2(300 + len(player_objects) * 50,300)
+	else:
+		#just yeet them up there, their positions will be updated shortly
+		player_instance.position = Vector2(-100, 540)
+
+	player_objects[peer_id] = player_instance		
+	add_child(player_instance)
 
 #signal recieved from lobby _on_player_disconnected if any peer disconnecs
 func player_disconnected(peer_id: Variant):
@@ -61,6 +81,8 @@ func server_disconnected():
 func host_game():
 	$Lobby.create_game()
 	$HUD.host_game()
+	
+	
 
 func join_game():
 	if get_node("HUD").get_node("IP").text == "": #needs to enter ip/port info still
@@ -70,6 +92,8 @@ func join_game():
 		var ip = $HUD.get_node("IP").text
 		var port = $HUD.get_node("Port").text
 		$Lobby.join_game(ip, port)
+		
+		
 
 func start_game():
 	$HUD.start_game()
@@ -78,28 +102,27 @@ func start_game():
 	if my_ID == 1:
 		$Multiplayer_Processing.start_the_games()
 	
-	#initialize map
-	var map = MapScene.instantiate()
-	add_child(map)
-	currMap = map
+	#roll tasks
+	if my_ID == 1:
+		currMap.assignTasks()
 	
-	#initialize players
-	var count = 0
-	for peer_id in players_IDs:
-		var player_instance = PlayerScene.instantiate()
-		player_instance.set_ID(peer_id)
-		
+	#initialize players... now at add_player
+	#var count = 0
+	#for peer_id in players_IDs:
+	#	var player_instance = PlayerScene.instantiate()
+	#	player_instance.set_ID(peer_id)
+	#	
 		#figure out player position, may be handled by Map in the future
-		if my_ID == 1:
+	#	if my_ID == 1:
 			# do some calculation to figure out placements of players
-			player_instance.position = Vector2(300 + count * 50,300)
-		else:
-			#just yeet them up there, their positions will be updated shortly
-			player_instance.position = Vector2(-100, 540)
+	#		player_instance.position = Vector2(300 + count * 50,300)
+	#	else:
+	#		#just yeet them up there, their positions will be updated shortly
+	#		player_instance.position = Vector2(-100, 540)
 
-		player_objects[peer_id] = player_instance		
-		add_child(player_instance)
-		count += 1
+	#	player_objects[peer_id] = player_instance		
+	#	add_child(player_instance)
+	#	count += 1
 	
 
 func return_to_title_page():

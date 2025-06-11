@@ -64,8 +64,6 @@ func _process(delta):
 		velocity = velocity.move_toward(Vector2(0,0), 20 * SPEED * delta)
 		
 	
-	
-	
 	move_and_slide()
 	
 	

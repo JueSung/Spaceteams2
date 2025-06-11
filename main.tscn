@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://yeqtxei3s51k"]
+[gd_scene load_steps=6 format=3 uid="uid://yeqtxei3s51k"]
 
 [ext_resource type="Script" uid="uid://dyodvuu0u0l4g" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://fu4l6qebd41q" path="res://lobby.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dh7d7sn5vvvue" path="res://multiplayer_processing.tscn" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://c752ago5p6ngl" path="res://hud.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://drjpb7tu5rlvd" path="res://multiplayer_tasks.gd" id="4_lquwl"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
@@ -11,6 +12,9 @@ script = ExtResource("1_ig7tw")
 [node name="Lobby" parent="." instance=ExtResource("2_h2yge")]
 
 [node name="Multiplayer_Processing" parent="." instance=ExtResource("3_1bvp3")]
+
+[node name="Multiplayer_Tasks" type="Node" parent="."]
+script = ExtResource("4_lquwl")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("4_1bvp3")
