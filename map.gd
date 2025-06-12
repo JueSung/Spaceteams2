@@ -11,13 +11,20 @@ var l = 100 #length of location task area thing
 
 var SS = preload("res://surface.tscn")
 var TS = preload("res://task_location.tscn")
-var task_scenes = [preload("res://Tasks/enable_button_task.tscn")]
+var task_scenes = [
+	preload("res://Tasks/enable_button_task.tscn"),
+	preload("res://Tasks/align_crystals_task.tscn")
+]
+
+var task_board_location
+var task_board
 
 
 var task_locations = []
 var walls = [] #just a list of all the walls
 
 func _ready():
+	randomize()
 	main = get_tree().root.get_node("Main")
 	
 	wallSetUp()
@@ -29,16 +36,24 @@ func assignTasks():
 	#rn just one task so all get that task lol
 	var taskTypes = [] #num of index of scene
 	for i in range(len(task_locations)):
-		var task = task_scenes[0].instantiate()
-		task_locations[i].assign_task(task)
-		taskTypes.append(0)
+		taskTypes.append([])
+		for j in range(len(task_locations[i])):
+			var val = int(randf_range(0, len(task_scenes)))
+			var task = task_scenes[val].instantiate()
+			task_locations[i][j].assign_task(task)
+			taskTypes[i].append(val)
 	main.get_node("Multiplayer_Tasks").send_task_assignments(taskTypes)
+	
+	if main.my_ID == 1:
+		for i in range(4):
+			task_board.add_task() #signal to add tasks to task board triggered by add_task() in task_board node
 
 #ran by client called by multiplayer_tasks from info from server
 func set_tasks(taskTypes):
 	for i in range(len(task_locations)):
-		var task = task_scenes[taskTypes[i]].instantiate()
-		task_locations[i].assign_task(task)
+		for j in range(len(task_locations[i])):
+			var task = task_scenes[taskTypes[i][j]].instantiate()
+			task_locations[i][j].assign_task(task)
 				
 
 
@@ -54,224 +69,236 @@ func taskSetUp():
 	
 	#other task locations stuff
 	#Pink Area Labeled by wall
+	task_locations.append([])
 	#3
 	var task_location = TS.instantiate()
 	task_location.global_position = Vector2(-7 * u + 0.5 * l, -1.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#4
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-7 * u + 0.5 * l, 0.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#5
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-8.5 * u, -2 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#9
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-9.5 * u, -3 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#10 low
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-8 * u + 0.5 * l, -3.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#10 high
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-8 * u + 0.5 * l, -5.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#13
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-11.5 * u, -6 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#14
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-12 * u - 0.5 * l, -4.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#16
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-10 * u - 0.5 * l, 1.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	#20
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-7.5 * u, 2 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[0].append(task_location)
 	
 	#blue
+	task_locations.append([])
 	#5
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(7 * u + 0.5 * l, -8.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#6
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(5.5 * u, -10 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#16
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(4 * u - 0.5 * l, -9.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#9 low
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(0.5 * l / sqrt(2) + 0.5 * u, -8.5 * u - 0.5 * l / sqrt(2))
 	task_location.rotation = PI/4
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#9 high
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(0.5 * l / sqrt(2) - 0.5 * u, -9.5 * u - 0.5 * l / sqrt(2))
 	task_location.rotation = PI/4
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#10
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-2.5 * u, -10 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#11
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-4 * u - 0.5 * l, -9.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#14
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-4 * u - 0.5 * l, -6.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	#15
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-2.5 * u, -6 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[1].append(task_location)
 	
 	#Yellow
+	task_locations.append([])
 	#3
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(6 * u - 0.5 * l, -1.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#8
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(11 * u - 0.5 * l, -4.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#9 left
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(12.5 * u, -5 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#9 right
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(13.5 * u, -5 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#14
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(16 * u + 0.5 * l, 0.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#15
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(15.5 * u, 2 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#18 right
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(10.5 * u, 2 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#18 middle
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(8.5 * u, 2 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#18 left
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(6.5 * u, 2 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#20
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(8 * u + 0.5 * l, -0.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#24
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(13 * u - 0.5 * l, 0.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	#27
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(9.5 * u, 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[2].append(task_location)
 	
 	#Green
+	task_locations.append([])
 	#5
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(5.5 * u, 5 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#7
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(7 * u + 0.5 * l,7.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#8
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(5.5 * u, 8 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#11
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(6 * u + 0.5 * l, 11.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#12
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(4.5 * u, 13 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#16
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-2.5 * u, 9 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#17
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-3 * u - 0.5 * l, 7.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#21
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(-0.5 * u, 6 * u - 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#28
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(0.5 * u, 9 * u + 0.5 * l)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	#29
 	task_location = TS.instantiate()
 	task_location.global_position = Vector2(u + 0.5 * l, 7.5 * u)
 	add_child(task_location)
-	task_locations.append(task_location)
+	task_locations[3].append(task_location)
 	
 	
 	#assign IDs
 	for i in range(len(task_locations)):
-		task_locations[i].set_ID(i)
+		for j in range(len(task_locations[i])):
+			task_locations[i][j].set_ID(Vector2(i,j))
+	
+	#Task_Board
+	task_board_location = TS.instantiate()
+	task_board_location.global_position = Vector2(1.5 * u, -1.5 * u)
+	add_child(task_board_location)
+	task_board = preload("res://Tasks/task_board.tscn").instantiate()
+	task_board_location.assign_task(task_board)
 
 func wallSetUp():
 

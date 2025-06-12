@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2145qrh4yqqq"]
+
+[ext_resource type="Script" uid="uid://dgccee6rmgkn" path="res://Tasks/task_board_element.gd" id="1_732lt"]
+
+[node name="Task_Board_Element" type="HBoxContainer"]
+offset_right = 1520.0
+offset_bottom = 137.0
+script = ExtResource("1_732lt")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "A LABELli"

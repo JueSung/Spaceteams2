@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://bue0yd67jolhb"]
+
+[ext_resource type="Script" uid="uid://ddx4mqscal0uc" path="res://Tasks/align_crystals_task.gd" id="1_jgfnm"]
+[ext_resource type="PackedScene" uid="uid://cw3fvwf116uft" path="res://Tasks/crystal.tscn" id="1_rnx3m"]
+
+[node name="Align_Crystals_Task" type="Node2D"]
+script = ExtResource("1_jgfnm")
+
+[node name="Crystal" parent="." instance=ExtResource("1_rnx3m")]
+position = Vector2(960, 200)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(960, 50)
+target_position = Vector2(0, 200)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Crystal2" parent="." instance=ExtResource("1_rnx3m")]
+position = Vector2(960, 420)
+
+[node name="RayCast2D2" type="RayCast2D" parent="."]
+position = Vector2(960, 320)
+target_position = Vector2(0, 150)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Crystal3" parent="." instance=ExtResource("1_rnx3m")]
+position = Vector2(960, 640)
+
+[node name="RayCast2D3" type="RayCast2D" parent="."]
+position = Vector2(960, 550)
+target_position = Vector2(0, 150)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Crystal4" parent="." instance=ExtResource("1_rnx3m")]
+position = Vector2(960, 860)
+
+[node name="RayCast2D4" type="RayCast2D" parent="."]
+position = Vector2(960, 750)
+target_position = Vector2(0, 150)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 300.0
+offset_right = 1620.0
+offset_bottom = 1080.0
+mouse_filter = 1
+
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

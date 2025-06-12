@@ -1,7 +1,7 @@
 extends Area2D
 class_name Task_Location
 
-var ID
+var ID #Vector2 of Area, pos in area
 
 #object assigned by map at beginning of designated round to be assigned a task
 var task = null
@@ -17,10 +17,18 @@ func assign_task(taskk):
 func set_ID(id):
 	ID = id
 
+#generally called by its task
+func get_ID():
+	return ID #Vector2
+
 func _ready():
 	$HUD.visible = false
 	
+#called by multiplayer_tasks
+func update_task(info):
+	task.update_task(info)
 	
+
 #to do the task... called by the client and run only on the client, vital info sent to server
 func open(player_objectt):
 	player_object = player_objectt
@@ -29,9 +37,10 @@ func open(player_objectt):
 	task.open()
 	#do anything else? idk
 
-#called by own task
+#called by button
 func close():
 	$HUD.visible = false
+	task.close()
 	player_object.close_task()
 
 func click_outside_task(event):

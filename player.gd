@@ -4,7 +4,7 @@ class_name Player
 var main = null
 var my_ID
 
-const SPEED = 840# * 3
+const SPEED = 840 * 3
 
 #user input info ---------
 var left = false
@@ -102,6 +102,7 @@ func interact_button_pressed():
 		set_process(false) #stop moving if in a task
 	if main.my_ID == my_ID:
 		if len(task_locations) > 0: #should always be true but for crash avoidance
+			$HUD/InteractButton.visible = false
 			task_locations[0].open(self)
 			if main.my_ID != 1:
 				main.get_node("Multiplayer_Processing").\
@@ -112,6 +113,7 @@ func interact_button_pressed():
 func close_task():
 	inTask = false
 	if main.my_ID == my_ID:
+		$HUD/InteractButton.visible = true
 		if main.my_ID != 1:
 			main.get_node("Multiplayer_Processing").\
 			send_to_server_player_function(my_ID, "close_task", [])
