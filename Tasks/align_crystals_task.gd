@@ -6,7 +6,6 @@ var goalState = null #the target state, initialized when task is added to task b
 
 func _ready():
 	main = get_tree().root.get_node("Main")
-	randomize()
 	$Crystal/CollisionPolygon2D.disabled = true
 	$Crystal/Alignment_Checker/CollisionShape2D.disabled = true
 	$Crystal2/CollisionPolygon2D.disabled = true
@@ -38,6 +37,9 @@ func open():
 	$RayCast2D3.enabled = true
 	$RayCast2D4.enabled = true
 	
+	if goalState != null:
+		check_alignment()
+	
 func close():
 	$Crystal/CollisionPolygon2D.disabled = true
 	$Crystal/Alignment_Checker/CollisionShape2D.disabled = true
@@ -55,9 +57,16 @@ func close():
 
 #is being assigned a goal by task_board so set a goalState prob to what state it is not
 func make_goal():
+	randomize()
 	goalState = 4
 	#randomize crystal spots
+	$Crystal.global_position.x = int(randf_range(500, 1420))
+	$Crystal2.global_position.x = int(randf_range(500, 1420))
+	$Crystal3.global_position.x = int(randf_range(500, 1420))
+	$Crystal4.global_position.x = int(randf_range(500, 1420))
 	
+	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),state, \
+			$Crystal.global_position, $Crystal2.global_position, $Crystal3.global_position, $Crystal4.global_position])
 	
 	return "Align Crystals"
 
@@ -67,10 +76,6 @@ func check_alignment():
 		if $RayCast2D2.is_colliding():
 			if $RayCast2D3.is_colliding():
 				if $RayCast2D4.is_colliding():
-					print($RayCast2D.get_collider().get_parent().get_parent().get_parent().get_parent().ID,\
-					$RayCast2D2.get_collider().get_parent().get_parent().get_parent().get_parent().ID,\
-					$RayCast2D3.get_collider().get_parent().get_parent().get_parent().get_parent().ID,\
-					$RayCast2D4.get_collider().get_parent().get_parent().get_parent().get_parent().ID)
 					state = 4
 				else:
 					state = 3
@@ -93,8 +98,6 @@ func update_task(info):
 	$Crystal3.global_position = info[4]
 	$Crystal4.global_position = info[5]
 	if main.my_ID == 1:
-		check_alignment()
-		print(state)
 		if goalState == state:
 			goalState = null
 			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
@@ -108,6 +111,7 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			$Crystal3.dragging = false
 			$Crystal4.dragging = false
 			
+			check_alignment()
 			#update other positions
 			main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),state, \
 			$Crystal.global_position, $Crystal2.global_position, $Crystal3.global_position, $Crystal4.global_position])

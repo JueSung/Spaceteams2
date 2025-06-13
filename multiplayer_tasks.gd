@@ -15,6 +15,8 @@ func send_task_assignments(taskTypes):
 func recieve_task_assignments(taskTypes):
 	get_parent().currMap.set_tasks(taskTypes)
 
+
+
 #send task_informatino to server and other clients via rpc
 func send_update_task(info):
 	if get_parent().my_ID != 1:
@@ -30,6 +32,9 @@ func recieve_update_task(id, info):
 		get_parent().currMap.task_locations[info[0].x][info[0].y].update_task(info)
 		rpc_id(0, "recieve_update_task", id, info)
 
+
+
+#task board stuff----------------------------------------------------------------------------------
 func send_add_board_task(goal, id):
 	rpc_id(0, "recieve_add_board_task", goal, id)
 @rpc("any_peer", "reliable")
@@ -42,9 +47,22 @@ func send_remove_board_task(index):
 func recieve_remove_board_task(index):
 	get_parent().currMap.task_board.remove_task(index)
 
+func send_set_task_bar(taskBar, text):
+	rpc_id(0, "recieve_set_task_bar", taskBar, text)
+@rpc("any_peer", "reliable")
+func recieve_set_task_bar(taskBar, text):
+	get_parent().currMap.task_board.set_task_bar(taskBar, text)
+#--------------------------------------------------------------------------------------------------
+
+@rpc("any_peer", "reliable")
+func set_big_button_availability(available):
+	if my_ID == 1:
+		rpc_id(0, "set_big_button_availability", available)
+	get_parent().currMap.big_button.set_availability(available)
+
 @rpc("any_peer", "reliable")
 func bigButtonPressed():
 	if my_ID != 1:
 		rpc_id(1, "bigButtonPressed")
 	else:
-		pass #update game stuff move on to next round or whatever
+		get_parent().big_button_pressed()

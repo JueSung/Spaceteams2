@@ -5,6 +5,9 @@ var main #instantiated in ready
 var state = false #game state, enabled or not
 var goalState = null #the target state, initialized when task is added to task board
 
+var NAMES = []
+static var available_names = []
+
 func _ready():
 	
 	main = get_tree().root.get_node("Main")
@@ -41,5 +44,4 @@ func update_task(info):
 		if goalState == state:
 			goalState = null
 			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
-		print("enable_button_task Do stuff here for like updating task bar and stuff")
 	

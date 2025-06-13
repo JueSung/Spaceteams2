@@ -19,6 +19,9 @@ var task_scenes = [
 var task_board_location
 var task_board
 
+var big_button_location
+var big_button
+
 
 var task_locations = []
 var walls = [] #just a list of all the walls
@@ -32,7 +35,15 @@ func _ready():
 	taskSetUp()
 
 #assigns tasks to all task_locations
-func assignTasks():
+#only ran by server, equivalent is set_tasks
+func assignTasks(taskBarGoal):
+	#remove any currently assigned tasks
+	for i in range(len(task_locations)):
+		for j in range(len(task_locations[i])):
+			if task_locations[i][j].task != null:
+				task_locations[i][j].task.queue_free()
+				task_locations[i][j].task = null
+	
 	#rn just one task so all get that task lol
 	var taskTypes = [] #num of index of scene
 	for i in range(len(task_locations)):
@@ -44,9 +55,10 @@ func assignTasks():
 			taskTypes[i].append(val)
 	main.get_node("Multiplayer_Tasks").send_task_assignments(taskTypes)
 	
-	if main.my_ID == 1:
-		for i in range(4):
-			task_board.add_task() #signal to add tasks to task board triggered by add_task() in task_board node
+	task_board.set_task_bar_goal(taskBarGoal)
+	
+	for i in range(4):
+		task_board.add_task() #signal to add tasks to task board triggered by add_task() in task_board node
 
 #ran by client called by multiplayer_tasks from info from server
 func set_tasks(taskTypes):
@@ -61,11 +73,11 @@ func set_tasks(taskTypes):
 func taskSetUp():
 	
 	#Button
-	var buttonTask = TS.instantiate()
-	buttonTask.global_position = Vector2(0,0)
-	add_child(buttonTask)
-	var bTask = preload("res://Tasks/button_task.tscn").instantiate()
-	buttonTask.assign_task(bTask)
+	big_button_location = TS.instantiate()
+	big_button_location.global_position = Vector2(0,0)
+	add_child(big_button_location)
+	big_button = preload("res://Tasks/button_task.tscn").instantiate()
+	big_button_location.assign_task(big_button)
 	
 	#other task locations stuff
 	#Pink Area Labeled by wall

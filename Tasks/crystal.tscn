@@ -9,7 +9,7 @@ size = Vector2(50, 50)
 script = ExtResource("1_twte7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-200, -100, 200, -100, 400, 0, 200, 100, -200, 100, -400, 0)
+polygon = PackedVector2Array(-150, -70, 150, -70, 300, 0, 150, 70, -150, 70, -300, 0)
 
 [node name="Alignment_Checker" type="Area2D" parent="."]
 collision_layer = 2

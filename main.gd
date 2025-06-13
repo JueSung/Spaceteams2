@@ -28,6 +28,16 @@ var inGame = false #if in a game, is true
 var currMap = null
 var sound_percentage = 100
 
+var task_bar_full = false
+#phases includes rounds, each phase increases in difficulty in types of tasks ex:
+#phase 1 has normal tasks that are completed at station
+#phase 2 has harder tasks that are done b/t areas like download upload
+#phase 3 has hardest tasks that require multiple people to be doing something simeoultaneously
+#or something like that
+var phase = 0 #which phase it is, which determines types of tasks, and maybe speed of tasks idk
+var round = 0 #which round of a game it is which determines how many tasks, speed of tasks, etc.
+
+
 
 func _ready():
 	#$HUD.show()
@@ -104,7 +114,7 @@ func start_game():
 	
 	#roll tasks
 	if my_ID == 1:
-		currMap.assignTasks()
+		currMap.assignTasks(round * 2 + len(players_IDs)) #idk change the num later
 	
 	#initialize players... now at add_player
 	#var count = 0
@@ -174,6 +184,40 @@ func _process(delta):
 		
 		$Multiplayer_Processing.send_delete_objects(objects_to_be_deleted)
 		objects_to_be_deleted = []
+
+#only ran on server called by big button pressed to start next round maybe also called by start_game()
+func next_round():
+	round += 1
+	#check if next phase (change later)
+	
+	#assign_tasks in map already resets the task_locations
+	var task_bar_goal = round * 2 + len(players_IDs) #current formula for determining num of tasks before round end
+	currMap.assignTasks(task_bar_goal)
+	
+
+#when sufficient tasks done read by task_bar, told to main here to make big button available
+func task_bar_met():
+	task_bar_full = true
+	#remove any currently available task_elements
+	currMap.task_board.set_between_rounds(true)
+	while len(currMap.task_board.tasks) > 0:
+		currMap.task_board.remove_task(0)
+	currMap.task_board.set_between_rounds(false)
+	
+	#make big button available
+	$Multiplayer_Tasks.set_big_button_availability(true)
+
+#only ran on server, when big button is pressed by someone
+func big_button_pressed():
+	if task_bar_full: #theoretically should always be true, but if lag and two ppl hit at same time or something
+		print("BUTTON PRESSED OHHHHHHH")
+		$Multiplayer_Tasks.set_big_button_availability(false)
+		task_bar_full = false
+		next_round()
+		
+
+
+
 
 #generally called by multiplayer_processing to get player objects
 func get_player_objects():

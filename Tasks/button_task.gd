@@ -11,7 +11,14 @@ func _ready():
 func open():
 	pass
 
+func close():
+	pass
 
+func set_availability(available):
+	if available:
+		$Mouse_blocker.visible = false
+	else:
+		$Mouse_blocker.visible = true
 
 
 func bigButton():
