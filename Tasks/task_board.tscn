@@ -31,13 +31,48 @@ offset_right = 416.0
 offset_bottom = 264.0
 text = "buttonq"
 
-[node name="Temp_Task_Bar" type="LineEdit" parent="."]
+[node name="Temp_Task_Bar" type="Label" parent="."]
 layout_mode = 0
 offset_left = 420.0
 offset_top = 146.0
 offset_right = 1697.0
 offset_bottom = 291.0
 theme_override_font_sizes/font_size = 100
-placeholder_text = "Nothing is here right now"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 297.0
+offset_right = 204.0
+offset_bottom = 407.0
+theme_override_font_sizes/font_size = 80
+text = "60"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 434.0
+offset_right = 193.0
+offset_bottom = 544.0
+theme_override_font_sizes/font_size = 80
+text = "60"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 587.0
+offset_right = 140.0
+offset_bottom = 670.0
+theme_override_font_sizes/font_size = 80
+text = "60"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 731.0
+offset_right = 177.0
+offset_bottom = 841.0
+theme_override_font_sizes/font_size = 80
+text = "60"
 
 [connection signal="pressed" from="OverrideButton" to="." method="do_a_thing"]

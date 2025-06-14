@@ -4,6 +4,20 @@ var main #instantiated in ready
 var state = 0 #game state, enabled or not
 var goalState = null #the target state, initialized when task is added to task board
 
+var NAMES = ["Trilithium", "Iridium", "Rutherfordium", "Big Rock", "Dicesium", "Difluorite", "Bismuth"]
+static var available_names = ["Trilithium", "Iridium", "Rutherfordium", "Big Rock", "Dicesium", "Difluorite", "Bismuth"]
+
+var task_name = ""
+
+
+func setUp():
+	if len(available_names) == 0:
+		return false
+	randomize()
+	var ind = int(randf_range(0, len(available_names)))
+	task_name = available_names[ind]
+	available_names.pop_at(ind)
+
 func _ready():
 	main = get_tree().root.get_node("Main")
 	$Crystal/CollisionPolygon2D.disabled = true

@@ -5,8 +5,28 @@ var main #instantiated in ready
 var state = false #game state, enabled or not
 var goalState = null #the target state, initialized when task is added to task board
 
-var NAMES = []
-static var available_names = []
+var NAMES = ["Parapalexus", "Hydrofibril", "Watermelon", "Trilithium Grid", "Hyperconfabulator", "Aerostorage",\
+ "Flux Capacitor", "Isoparametric Modulator", "Subspace Conduit", "Tachyon Materializer", "Stove", \
+"Static Deflector", "Positronic Confinement Beam", "Harmonic Particle Converter", "Osmotic Containment Field"]
+static var available_names = ["Parapalexus", "Hydrofibril", "Watermelon", "Trilithium Grid", "Hyperconfabulator", "Aerostorage",\
+ "Flux Capacitor", "Isoparametric Modulator", "Subspace Conduit", "Tachyon Materializer", "Stove", \
+"Static Deflector", "Positronic Confinement Beam", "Harmonic Particle Converter", "Osmotic Containment Field"]
+
+var task_name = ""
+
+#needs to run before _ready()
+#rn for name generation, possibly for other stuff later, all rolled tasks need this function
+func setUp():
+	if len(available_names) == 0:
+		return false
+	randomize()
+	var ind = int(randf_range(0, len(available_names)))
+	task_name = available_names[ind]
+	available_names.pop_at(ind)
+	
+	
+	return true
+	
 
 func _ready():
 	

@@ -180,6 +180,8 @@ func _process(delta):
 		#$Multiplayer_Processing.send_object_states(objects_datas) #handles objects to be added via seeing new objects
 		states["player_datas"] = player_datas
 		states["objects_datas"] = objects_datas
+		if is_instance_valid(currMap) and is_instance_valid(currMap.task_board):
+			states["task_elements_times"] = currMap.task_board.get_data()
 		$Multiplayer_Processing.send_states(states)
 		
 		$Multiplayer_Processing.send_delete_objects(objects_to_be_deleted)

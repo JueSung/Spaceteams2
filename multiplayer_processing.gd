@@ -99,6 +99,7 @@ func send_states(states):
 func recieve_states(states):
 	get_parent().update_player_datas(states["player_datas"])
 	get_parent().update_object_states(states["objects_datas"])
+	get_parent().currMap.task_board.update_states(states["task_elements_times"])
 
 #send info to delete object
 func send_delete_objects(objects_to_be_deleted):
