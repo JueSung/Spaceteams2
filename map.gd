@@ -62,6 +62,13 @@ func assignTasks(taskBarGoal):
 
 #ran by client called by multiplayer_tasks from info from server
 func set_tasks(taskTypes):
+	#remove any currently assigned tasks
+	for i in range(len(task_locations)):
+		for j in range(len(task_locations[i])):
+			if task_locations[i][j].task != null:
+				task_locations[i][j].task.queue_free()
+				task_locations[i][j].task = null
+	
 	for i in range(len(task_locations)):
 		for j in range(len(task_locations[i])):
 			var task = task_scenes[taskTypes[i][j]].instantiate()

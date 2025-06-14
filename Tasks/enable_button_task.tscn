@@ -6,6 +6,7 @@
 script = ExtResource("1_4mc2k")
 
 [node name="Mouse_Blocker" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 460.0

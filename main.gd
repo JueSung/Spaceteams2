@@ -34,8 +34,8 @@ var task_bar_full = false
 #phase 2 has harder tasks that are done b/t areas like download upload
 #phase 3 has hardest tasks that require multiple people to be doing something simeoultaneously
 #or something like that
-var phase = 0 #which phase it is, which determines types of tasks, and maybe speed of tasks idk
-var round = 0 #which round of a game it is which determines how many tasks, speed of tasks, etc.
+var phase = 1 #which phase it is, which determines types of tasks, and maybe speed of tasks idk
+var round = 1 #which round of a game it is which determines how many tasks, speed of tasks, etc.
 
 
 
