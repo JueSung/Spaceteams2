@@ -37,7 +37,7 @@ var task_bar_full = false
 var phase = 1 #which phase it is, which determines types of tasks, and maybe speed of tasks idk
 var round = 1 #which round of a game it is which determines how many tasks, speed of tasks, etc.
 
-
+var deathTimer = 180 #timer until lose, resets if round passed
 
 func _ready():
 	#$HUD.show()
@@ -108,6 +108,7 @@ func join_game():
 func start_game():
 	$HUD.start_game()
 	inGame = true
+	deathTimer = 180
 	
 	if my_ID == 1:
 		$Multiplayer_Processing.start_the_games()
@@ -164,7 +165,10 @@ func set_player_inputs(id, inputs):
 
 
 func _process(delta):
-	if my_ID == 1:
+	if my_ID == 1 and inGame:
+		deathTimer -= delta
+		if deathTimer <= 0:
+			end_game()
 		
 		for id in player_objects: #enhanced for loop
 			if id in players_inputs:
@@ -247,7 +251,7 @@ func delete_player(id):
 	#if len(player_objects) <= 1:
 	#	end_game()
 
-#game ends when 1 or less players
+#
 func end_game():
 	#send msg to end game
 	if not inGame:
@@ -258,14 +262,23 @@ func end_game():
 	if my_ID == 1:
 		$Multiplayer_Processing.send_end_game()
 	
-	currMap.queue_free()
-	currMap = null
+	if my_ID == 1:
+		currMap.task_board.set_between_rounds(true)
+		while len(currMap.task_board.tasks) > 0:
+			currMap.task_board.remove_task(0)
+		currMap.task_board.set_between_rounds(false)
 	
-	for id in player_objects:
-		player_objects[id].queue_free()
-	player_objects = {}
-	player_datas = {}
-	players_inputs = {}
+	phase = 1
+	round = 1
+	
+	#currMap.queue_free()
+	#currMap = null
+	
+	#for id in player_objects:
+	#	player_objects[id].queue_free()
+	#player_objects = {}
+	#player_datas = {}
+	#players_inputs = {}
 	
 	for id in objects:
 		objects[id].queue_free()
