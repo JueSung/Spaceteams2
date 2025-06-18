@@ -1,7 +1,7 @@
 extends Node2D
 
 var main #instantiated in ready
-var state = 0 #game state, num of aligned crystals
+var state = false #game state, 
 var goalState = null #the target state, initialized when task is added to task board
 
 var NAMES = []
@@ -25,7 +25,9 @@ func setUp():
 func _ready():
 	main = get_tree().root.get_node("Main")
 	
-	$Valve1/Valve/CollisionShape2D.disabled = true
+	set_process(false)
+	
+	"""$Valve1/Valve/CollisionShape2D.disabled = true
 	$Valve2/Valve/CollisionShape2D.disabled = true
 	$Valve3/Valve/CollisionShape2D.disabled = true
 	$Valve4/Valve/CollisionShape2D.disabled = true
@@ -43,48 +45,54 @@ func _ready():
 	$Valve4/Slime_Level/CollisionShape2D.disabled = true
 	$Valve5/Slime_Level/CollisionShape2D.disabled = true
 	
-
+	$Valve1/Slime_Level.set_process(false)
+	$Valve2/Slime_Level.set_process(false)
+	$Valve3/Slime_Level.set_process(false)
+	$Valve4/Slime_Level.set_process(false)
+	$Valve5/Slime_Level.set_process(false)"""
 
 func open():
-	$Valve1/Valve/CollisionShape2D.disabled = false
-	$Valve2/Valve/CollisionShape2D.disabled = false
-	$Valve3/Valve/CollisionShape2D.disabled = false
-	$Valve4/Valve/CollisionShape2D.disabled = false
-	$Valve5/Valve/CollisionShape2D.disabled = false
-	
-	$Valve1/Valve.set_process(true)
-	$Valve2/Valve.set_process(true)
-	$Valve3/Valve.set_process(true)
-	$Valve4/Valve.set_process(true)
-	$Valve5/Valve.set_process(true)
-	
-	$Valve1/Slime_Level/CollisionShape2D.disabled = false
-	$Valve2/Slime_Level/CollisionShape2D.disabled = false
-	$Valve3/Slime_Level/CollisionShape2D.disabled = false
-	$Valve4/Slime_Level/CollisionShape2D.disabled = false
-	$Valve5/Slime_Level/CollisionShape2D.disabled = false
+	set_process(true)
+	$Valve1.open()
+	$Valve2.open()
+	$Valve3.open()
+	$Valve4.open()
+	$Valve5.open()
 
 func close():
-	$Valve1/Valve/CollisionShape2D.disabled = true
-	$Valve2/Valve/CollisionShape2D.disabled = true
-	$Valve3/Valve/CollisionShape2D.disabled = true
-	$Valve4/Valve/CollisionShape2D.disabled = true
-	$Valve5/Valve/CollisionShape2D.disabled = true
-	
-	$Valve1/Valve.set_process(false)
-	$Valve2/Valve.set_process(false)
-	$Valve3/Valve.set_process(false)
-	$Valve4/Valve.set_process(false)
-	$Valve5/Valve.set_process(false)
-	
-	$Valve1/Slime_Level/CollisionShape2D.disabled = true
-	$Valve2/Slime_Level/CollisionShape2D.disabled = true
-	$Valve3/Slime_Level/CollisionShape2D.disabled = true
-	$Valve4/Slime_Level/CollisionShape2D.disabled = true
-	$Valve5/Slime_Level/CollisionShape2D.disabled = true
+	set_process(false)
+	$Valve1.close()
+	$Valve2.close()
+	$Valve3.close()
+	$Valve4.close()
+	$Valve5.close()
 
 func make_goal():
+	goalState = true
+	randomize()
+	$Valve1/RayCast2D.position.y = int(randf_range(100, 650))
+	$Valve2/RayCast2D.position.y = int(randf_range(100, 650))
+	$Valve3/RayCast2D.position.y = int(randf_range(100, 650))
+	$Valve4/RayCast2D.position.y = int(randf_range(100, 650))
+	$Valve5/RayCast2D.position.y = int(randf_range(100, 650))
+	
+	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), state,
+		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])
+	
 	return "Slime stuff"
+
+func update_task(info):
+	state = info[1]
+	$Valve1.update_info(info[2])
+	$Valve2.update_info(info[3])
+	$Valve3.update_info(info[4])
+	$Valve4.update_info(info[5])
+	$Valve5.update_info(info[6])
+	if main.my_ID == 1:
+		if goalState == state:
+			goalState = null
+			state = false
+			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
 
 func _on_control_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -94,3 +102,18 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			$Valve3/Valve.dragging = false
 			$Valve4/Valve.dragging = false
 			$Valve5/Valve.dragging = false
+
+func _process(delta):
+	if $Valve1/RayCast2D.is_colliding() and $Valve2/RayCast2D.is_colliding() and\
+	$Valve3/RayCast2D.is_colliding() and $Valve4/RayCast2D.is_colliding() and\
+	$Valve5/RayCast2D.is_colliding():
+		state = true
+	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), state,
+		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])
+	state = false
+
+
+func override():
+	state = true
+	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), state,
+		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])

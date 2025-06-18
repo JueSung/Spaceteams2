@@ -17,6 +17,8 @@ func setUp():
 	var ind = int(randf_range(0, len(available_names)))
 	task_name = available_names[ind]
 	available_names.pop_at(ind)
+	
+	return true
 
 func _ready():
 	main = get_tree().root.get_node("Main")

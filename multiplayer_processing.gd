@@ -7,7 +7,7 @@ var inputs = {}
 var my_ID = 1 #for instantiation
 #var in_a_game = false #only collects inputs if in a game
 
-
+var clientToServerInfo = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,20 +39,55 @@ func _process(delta):
 	inputs["mouse_position_y"] = get_viewport().get_mouse_position().y
 	
 	var packet = JSON.stringify(inputs)
-	send_inputs_to_server(packet)
+	append_client_to_server_info("inputs", [my_ID, packet])
+	##send_inputs_to_server(packet)
+	
+	#every frame calls send info to server
+	send_info_to_server()
+	#resets so info doesn't just get held there forever
+	clientToServerInfo = {}
+
+#for sending info from client to server -----------------------------
+func append_client_to_server_info(key, info):
+	if key == "task":
+		if not clientToServerInfo.has(key):
+			clientToServerInfo[key] = []
+		clientToServerInfo[key].append(info)
+	else:
+		clientToServerInfo[key] = info
 	
 #get inputs from own Multiplayer_Processing to own Main
-func send_inputs_to_server(packet: Variant):
-	if my_ID != 1:
-		rpc_id(1, "recieve_client_inputs", my_ID, packet)
-	else:
-		recieve_client_inputs(1, packet)
+#now sends to a general send info to main bc tasks that updates per frame
+##func send_inputs_to_server(packet: Variant):
+##	if my_ID != 1:
+##		get_parent().append_client_to_server_info(my_ID, packet)
+	#	rpc_id(1, "recieve_client_inputs", my_ID, packet)
+##	else:
+	#	recieve_client_inputs(1, packet)
 
 #recieving client inputs from client Main
-@rpc("any_peer", "unreliable")
+##@rpc("any_peer", "unreliable") #now send via recieve_info_from_client()
 func recieve_client_inputs(id, packet):
 	var inputs = JSON.parse_string(packet)
 	get_parent().set_player_inputs(id, inputs)
+
+#generalized send info to server where info is a dictionary updated and reset every frame in main
+func send_info_to_server():
+	if my_ID != 1:
+		rpc_id(1, "recieve_info_from_client", clientToServerInfo)
+	else:
+		recieve_info_from_client(clientToServerInfo)
+@rpc("any_peer", "unreliable")
+func recieve_info_from_client(info):
+	for key in info:
+		match key:
+			"inputs":
+				recieve_client_inputs(info[key][0], info[key][1])
+			"task":
+				get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(info[key])
+			
+			_:
+				print("unknown info here")
 	
 #from server main send out signal to start games to clients
 func start_the_games():
@@ -100,6 +135,7 @@ func recieve_states(states):
 	get_parent().update_player_datas(states["player_datas"])
 	get_parent().update_object_states(states["objects_datas"])
 	get_parent().currMap.task_board.update_states(states["task_elements_times"])
+	get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(states["task"])
 
 #send info to delete object
 func send_delete_objects(objects_to_be_deleted):

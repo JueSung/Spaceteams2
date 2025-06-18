@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgfpd7o2cm31q"]
+[gd_scene load_steps=6 format=3 uid="uid://cgfpd7o2cm31q"]
 
+[ext_resource type="Script" uid="uid://i67sy1kou0kj" path="res://Tasks/slime_valve_task_element.gd" id="1_8xfmy"]
 [ext_resource type="Script" uid="uid://bg3xo5w1byv6u" path="res://Tasks/slime_element_task_valve.gd" id="1_i4sma"]
 [ext_resource type="Script" uid="uid://s1uvx1w2kb56" path="res://Tasks/slime_element_task_level.gd" id="2_k4kam"]
 
@@ -10,6 +11,7 @@ radius = 70.0
 size = Vector2(140, 80)
 
 [node name="Slime_Valve_Task_Element" type="Node2D"]
+script = ExtResource("1_8xfmy")
 
 [node name="Valve" type="Area2D" parent="."]
 position = Vector2(0, 880)
@@ -20,7 +22,16 @@ shape = SubResource("CircleShape2D_npnoq")
 
 [node name="Slime_Level" type="Area2D" parent="."]
 position = Vector2(0, 100)
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("2_k4kam")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Slime_Level"]
 shape = SubResource("RectangleShape2D_i4sma")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-100, 500)
+target_position = Vector2(100, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false

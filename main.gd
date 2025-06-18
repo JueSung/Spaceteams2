@@ -12,7 +12,12 @@ var objects = {} #types: Sawblade, Boom
 var objects_datas = {}
 var objects_to_be_deleted = []
 
-var states = {} #player_datas + objects_datas
+var clientToServerInfo = {}
+
+#player_datas + objects_datas + task_infos
+var states = {
+	"task" : []
+} 
 
 var PlayerScene = preload("res://player.tscn")
 var MapScene = preload("res://map.tscn")
@@ -188,8 +193,11 @@ func _process(delta):
 			states["task_elements_times"] = currMap.task_board.get_data()
 		$Multiplayer_Processing.send_states(states)
 		
+		states["task"] = [] #appended to by multiplayer_tasks
+		
 		$Multiplayer_Processing.send_delete_objects(objects_to_be_deleted)
 		objects_to_be_deleted = []
+	
 
 #only ran on server called by big button pressed to start next round maybe also called by start_game()
 func next_round():

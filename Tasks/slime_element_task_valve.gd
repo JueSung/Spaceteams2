@@ -28,4 +28,6 @@ func _process(delta):
 			delta_rot = (2 * PI - delta_rot) * -1
 		elif delta_rot < -PI:
 			delta_rot = (2 * PI + delta_rot) * -1
-		get_parent().get_node("Slime_Level").update_target_pos(delta_rot)
+		##get_parent().get_node("Slime_Level").update_target_pos(delta_rot)
+	
+		get_parent().info["delta_rot"] = delta_rot

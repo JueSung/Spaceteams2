@@ -15,7 +15,19 @@ func send_task_assignments(taskTypes):
 func recieve_task_assignments(taskTypes):
 	get_parent().currMap.set_tasks(taskTypes)
 
+#send update task but every frame so sends to main to tell multiplayer processing which is sent back here
+#neither functions are rpc, rpc done in multiplayer_processing
+func send_process_update_task(info):
+	get_parent().get_node("Multiplayer_Processing").append_client_to_server_info("task", [my_ID, info])
 
+func recieve_process_update_task(info):
+	for i in range(len(info)):
+		if my_ID != info[i][0]:
+			get_parent().currMap.task_locations[info[i][1][0].x][info[i][1][0].y].update_task(info[i][1])
+		if my_ID == 1:
+	
+			get_parent().currMap.task_locations[info[i][1][0].x][info[i][1][0].y].update_task(info[i][1])
+			get_parent().states["task"].append(info[i])
 
 #send task_informatino to server and other clients via rpc
 func send_update_task(info):
@@ -31,6 +43,8 @@ func recieve_update_task(id, info):
 	if my_ID == 1:
 		get_parent().currMap.task_locations[info[0].x][info[0].y].update_task(info)
 		rpc_id(0, "recieve_update_task", id, info)
+
+
 
 
 

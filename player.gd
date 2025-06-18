@@ -113,7 +113,7 @@ func _input(event):
 	if event.is_action_pressed("E"):
 		if $HUD/InteractButton.visible and not inTask:
 			interact_button_pressed()
-		elif inTask:
+		elif inTask and len(task_locations) > 0:
 			task_locations[0].close()
 
 #called by task location in client or fro multiplayer_processing rpc
