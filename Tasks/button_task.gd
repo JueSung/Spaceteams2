@@ -24,3 +24,6 @@ func set_availability(available):
 func bigButton():
 	print("Big button pressed")
 	main.get_node("Multiplayer_Tasks").bigButtonPressed()
+
+func override():
+	bigButton()

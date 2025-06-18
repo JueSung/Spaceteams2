@@ -95,7 +95,7 @@ func interactable_area_exited(area):
 		if len(task_locations) == 0:
 			$HUD/InteractButton.visible = false
 
-#runs on client on own player or called by multiplayer_processing after rpc call
+#runs on client on own player
 func interact_button_pressed():
 	inTask = true
 	if main.my_ID == 1:
@@ -108,6 +108,13 @@ func interact_button_pressed():
 				main.get_node("Multiplayer_Processing").\
 				send_to_server_player_function(my_ID, "interact_button_pressed", [])
 	
+	
+func _input(event):
+	if event.is_action_pressed("E"):
+		if $HUD/InteractButton.visible and not inTask:
+			interact_button_pressed()
+		elif inTask:
+			task_locations[0].close()
 
 #called by task location in client or fro multiplayer_processing rpc
 func close_task():

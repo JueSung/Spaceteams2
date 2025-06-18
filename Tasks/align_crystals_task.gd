@@ -1,7 +1,7 @@
 extends Node2D
 
 var main #instantiated in ready
-var state = 0 #game state, enabled or not
+var state = 0 #game state, num of aligned crystals
 var goalState = null #the target state, initialized when task is added to task board
 
 var NAMES = ["Trilithium", "Iridium", "Rutherfordium", "Big Rock", "Dicesium", "Difluorite", "Bismuth"]
@@ -34,6 +34,11 @@ func _ready():
 	$RayCast2D3.enabled = false
 	$RayCast2D4.enabled = false
 	
+	$Crystal.set_process(false)
+	$Crystal2.set_process(false)
+	$Crystal3.set_process(false)
+	$Crystal4.set_process(false)
+	
 
 #called by assigned task_location object
 func open():
@@ -50,6 +55,11 @@ func open():
 	$RayCast2D2.enabled = true
 	$RayCast2D3.enabled = true
 	$RayCast2D4.enabled = true
+	
+	$Crystal.set_process(true)
+	$Crystal2.set_process(true)
+	$Crystal3.set_process(true)
+	$Crystal4.set_process(true)
 	
 	if goalState != null:
 		check_alignment()
@@ -68,6 +78,11 @@ func close():
 	$RayCast2D2.enabled = false
 	$RayCast2D3.enabled = false
 	$RayCast2D4.enabled = false
+	
+	$Crystal.set_process(false)
+	$Crystal2.set_process(false)
+	$Crystal3.set_process(false)
+	$Crystal4.set_process(false)
 
 #is being assigned a goal by task_board so set a goalState prob to what state it is not
 func make_goal():
@@ -129,3 +144,14 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			#update other positions
 			main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),state, \
 			$Crystal.global_position, $Crystal2.global_position, $Crystal3.global_position, $Crystal4.global_position])
+
+
+func override():
+	if goalState != null:
+		$Crystal.global_position.x = 960
+		$Crystal2.global_position.x = 960
+		$Crystal3.global_position.x = 960
+		$Crystal4.global_position.x = 960
+		check_alignment()
+		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),state, \
+				$Crystal.global_position, $Crystal2.global_position, $Crystal3.global_position, $Crystal4.global_position])

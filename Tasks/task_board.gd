@@ -78,7 +78,6 @@ func remove_task(index):
 		main.get_node("Multiplayer_Tasks").send_remove_board_task(index)
 		if not betweenRounds:
 			add_task()
-			update_task_bar(1)
 
 #ran by server
 #increment when task completed, decrement when task expires
@@ -125,6 +124,7 @@ func task_completed(id):
 	for i in range(len(tasks)):
 		if tasks[i].get_ID() == id:
 			remove_task(i)
+			update_task_bar(1)
 			break
 
 func get_data():
@@ -145,14 +145,14 @@ func update_states(task_timess):
 
 #only ran on server, mostly for task element timers
 func _process(delta):
-	print(len(task_times))
 	for i in len(task_times):
 		var j = len(task_times)-1-i
-		task_times[j] -= delta
-		if task_times[j] <= 0:
-			#time ran out so remove task and decrement task bar
-			remove_task(j)
-			update_task_bar(-1)
+		if j >= 0:
+			task_times[j] -= delta
+			if task_times[j] <= 0:
+				#time ran out so remove task and decrement task bar
+				remove_task(j)
+				update_task_bar(-1)
 	if len(task_times) > 0:
 		$Label.text = str(int(task_times[0]))
 	if len(task_times) > 1:
@@ -161,11 +161,7 @@ func _process(delta):
 		$Label3.text = str(int(task_times[2]))
 	if len(task_times) > 3:
 		$Label4.text = str(int(task_times[3]))
-
-#override button
-func do_a_thing() -> void:
-	task_locations[tasks[0].get_ID().x][tasks[0].get_ID().y].task.state = \
-	task_locations[tasks[0].get_ID().x][tasks[0].get_ID().y].task.goalState
-	main.get_node("Multiplayer_Tasks").send_update_task([tasks[0].get_ID(),\
-	task_locations[tasks[0].get_ID().x][tasks[0].get_ID().y].task.goalState])
 	
+
+func override():
+	pass

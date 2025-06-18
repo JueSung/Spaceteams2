@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://7kan2bhyhhdr"]
+
+[ext_resource type="Script" uid="uid://ddk3vta21gig" path="res://Tasks/waste_task_2.gd" id="1_0t2bk"]
+[ext_resource type="Script" uid="uid://knlhg5yk7ip6" path="res://Tasks/waste_task2_lever.gd" id="2_kcir7"]
+[ext_resource type="Script" uid="uid://brwv747nhlfgd" path="res://Tasks/waste_task2_circle_lever.gd" id="3_ldxwa"]
+[ext_resource type="PackedScene" uid="uid://bpi6qpvkdcns6" path="res://Tasks/waste_2_task_plasma_torches.tscn" id="4_83tyl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0t2bk"]
+size = Vector2(400, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kcir7"]
+size = Vector2(80, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_83tyl"]
+size = Vector2(200, 50)
+
+[node name="Waste Task 2" type="Node2D"]
+script = ExtResource("1_0t2bk")
+
+[node name="Lever" type="Area2D" parent="."]
+position = Vector2(1680, 200)
+script = ExtResource("2_kcir7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lever"]
+shape = SubResource("RectangleShape2D_0t2bk")
+
+[node name="Lever_Detector" type="Area2D" parent="."]
+position = Vector2(1684, 600)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lever_Detector"]
+shape = SubResource("RectangleShape2D_kcir7")
+
+[node name="Circle_Lever" type="Area2D" parent="."]
+position = Vector2(1684, 860)
+script = ExtResource("3_ldxwa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Circle_Lever"]
+position = Vector2(100, 0)
+shape = SubResource("RectangleShape2D_83tyl")
+
+[node name="Plasma_Torch" parent="." instance=ExtResource("4_83tyl")]
+position = Vector2(1840, 770)
+
+[node name="Plasma_Torch2" parent="." instance=ExtResource("4_83tyl")]
+position = Vector2(1684, 680)
+
+[node name="Plasma_Torch3" parent="." instance=ExtResource("4_83tyl")]
+position = Vector2(1528, 770)
+
+[node name="Plasma_Torch4" parent="." instance=ExtResource("4_83tyl")]
+position = Vector2(1528, 950)
+
+[node name="Plasma_Torch5" parent="." instance=ExtResource("4_83tyl")]
+position = Vector2(1684, 1040)
+
+[node name="Plasma_Torch6" parent="." instance=ExtResource("4_83tyl")]
+position = Vector2(1840, 950)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1420.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 1
+
+[connection signal="area_entered" from="Lever" to="." method="lever_area_entered"]
+[connection signal="area_entered" from="Circle_Lever" to="." method="circle_lever_area_entered"]
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

@@ -6,7 +6,7 @@ var ID #Vector2 of Area, pos in area
 #object assigned by map at beginning of designated round to be assigned a task
 var task = null
 #for client ends, the client that opens task, their respective task will have player object assigned here
-var player_object
+var player_object = null
 
 #needs to be ran about at time of instantiation, before allowed to be interacted with by player
 func assign_task(taskk):
@@ -42,7 +42,20 @@ func close():
 	$HUD.visible = false
 	task.close()
 	player_object.close_task()
+	player_object = null
 
-func click_outside_task(event):
-	if event is InputEventMouseButton and event.pressed:
-		close()
+"""func _input(event):
+	if event.is_action_pressed("Q"):
+		print("RAN")
+		if player_object and player_object.inTask:
+			print("AH")
+			close():"""
+
+func _input(event):
+	if event.is_action_pressed("Q"):
+		if $HUD.visible:
+			override_task()
+
+func override_task() -> void:
+	if task != null:
+		task.override()

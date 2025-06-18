@@ -13,7 +13,10 @@ var SS = preload("res://surface.tscn")
 var TS = preload("res://task_location.tscn")
 var task_scenes = [
 	preload("res://Tasks/enable_button_task.tscn"),
-	preload("res://Tasks/align_crystals_task.tscn")
+	preload("res://Tasks/align_crystals_task.tscn"),
+	preload("res://Tasks/waste_task_2.tscn"),
+	preload("res://Tasks/waste_1_task_shredder.tscn"),
+	preload("res://Tasks/slime_containment_task.tscn")
 ]
 
 var task_board_location

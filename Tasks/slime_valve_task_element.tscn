@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgfpd7o2cm31q"]
+
+[ext_resource type="Script" uid="uid://bg3xo5w1byv6u" path="res://Tasks/slime_element_task_valve.gd" id="1_i4sma"]
+[ext_resource type="Script" uid="uid://s1uvx1w2kb56" path="res://Tasks/slime_element_task_level.gd" id="2_k4kam"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_npnoq"]
+radius = 70.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i4sma"]
+size = Vector2(140, 80)
+
+[node name="Slime_Valve_Task_Element" type="Node2D"]
+
+[node name="Valve" type="Area2D" parent="."]
+position = Vector2(0, 880)
+script = ExtResource("1_i4sma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Valve"]
+shape = SubResource("CircleShape2D_npnoq")
+
+[node name="Slime_Level" type="Area2D" parent="."]
+position = Vector2(0, 100)
+script = ExtResource("2_k4kam")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Slime_Level"]
+shape = SubResource("RectangleShape2D_i4sma")

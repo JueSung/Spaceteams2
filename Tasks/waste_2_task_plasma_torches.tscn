@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpi6qpvkdcns6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8le5s"]
+
+[node name="Waste2_Task_Plasma_Torches" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8le5s")

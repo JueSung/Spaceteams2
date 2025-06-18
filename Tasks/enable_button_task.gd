@@ -7,10 +7,12 @@ var goalState = null #the target state, initialized when task is added to task b
 
 var NAMES = ["Parapalexus", "Hydrofibril", "Watermelon", "Trilithium Grid", "Hyperconfabulator", "Aerostorage",\
  "Flux Capacitor", "Isoparametric Modulator", "Subspace Conduit", "Tachyon Materializer", "Stove", \
-"Static Deflector", "Positronic Confinement Beam", "Harmonic Particle Converter", "Osmotic Containment Field"]
+"Static Deflector", "Positronic Confinement Beam", "Harmonic Particle Converter", "Osmotic Containment Field",
+"Brew Coffee", "Panic"]
 static var available_names = ["Parapalexus", "Hydrofibril", "Watermelon", "Trilithium Grid", "Hyperconfabulator", "Aerostorage",\
  "Flux Capacitor", "Isoparametric Modulator", "Subspace Conduit", "Tachyon Materializer", "Stove", \
-"Static Deflector", "Positronic Confinement Beam", "Harmonic Particle Converter", "Osmotic Containment Field"]
+"Static Deflector", "Positronic Confinement Beam", "Harmonic Particle Converter", "Osmotic Containment Field", \
+"Brew Coffee", "Panic"]
 
 var task_name = ""
 
@@ -65,3 +67,7 @@ func update_task(info):
 			goalState = null
 			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
 	
+func override():
+	if goalState != null:
+		state = goalState
+		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), state])
