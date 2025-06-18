@@ -25,34 +25,9 @@ func setUp():
 func _ready():
 	main = get_tree().root.get_node("Main")
 	
-	set_process(false)
 	
-	"""$Valve1/Valve/CollisionShape2D.disabled = true
-	$Valve2/Valve/CollisionShape2D.disabled = true
-	$Valve3/Valve/CollisionShape2D.disabled = true
-	$Valve4/Valve/CollisionShape2D.disabled = true
-	$Valve5/Valve/CollisionShape2D.disabled = true
-	
-	$Valve1/Valve.set_process(false)
-	$Valve2/Valve.set_process(false)
-	$Valve3/Valve.set_process(false)
-	$Valve4/Valve.set_process(false)
-	$Valve5/Valve.set_process(false)
-	
-	$Valve1/Slime_Level/CollisionShape2D.disabled = true
-	$Valve2/Slime_Level/CollisionShape2D.disabled = true
-	$Valve3/Slime_Level/CollisionShape2D.disabled = true
-	$Valve4/Slime_Level/CollisionShape2D.disabled = true
-	$Valve5/Slime_Level/CollisionShape2D.disabled = true
-	
-	$Valve1/Slime_Level.set_process(false)
-	$Valve2/Slime_Level.set_process(false)
-	$Valve3/Slime_Level.set_process(false)
-	$Valve4/Slime_Level.set_process(false)
-	$Valve5/Slime_Level.set_process(false)"""
 
 func open():
-	set_process(true)
 	$Valve1.open()
 	$Valve2.open()
 	$Valve3.open()
@@ -60,7 +35,6 @@ func open():
 	$Valve5.open()
 
 func close():
-	set_process(false)
 	$Valve1.close()
 	$Valve2.close()
 	$Valve3.close()
