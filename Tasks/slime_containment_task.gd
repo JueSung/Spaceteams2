@@ -82,7 +82,7 @@ func _process(delta):
 	$Valve3/RayCast2D.is_colliding() and $Valve4/RayCast2D.is_colliding() and\
 	$Valve5/RayCast2D.is_colliding():
 		state = true
-	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), state,
+	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), state,\
 		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])
 	state = false
 
