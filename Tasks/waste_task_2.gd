@@ -61,6 +61,10 @@ func make_goal():
 	lever_done = false
 	circle_plasma_torches_activated = 0
 	activated_torches = [false, false, false, false, false, false]
+	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
+			"Waste Task 2", \
+			$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])
+	
 	return "Plasma Gasification"
 
 
@@ -99,15 +103,16 @@ func circle_lever_area_entered(area):
 			
 
 func update_task(info):
-	$Lever.global_position = info[1]
-	lever_done = info[2]
-	$Circle_Lever.rotation = info[3]
-	circle_plasma_torches_activated = info[4]
-	
-	if main.my_ID == 1:
-		if goalState != null and lever_done and circle_plasma_torches_activated == NUM_PLASMA_TORCHES:
-			goalState = null
-			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+	if info[1] == "Waste Task 2":
+		$Lever.global_position = info[2]
+		lever_done = info[3]
+		$Circle_Lever.rotation = info[4]
+		circle_plasma_torches_activated = info[5]
+		
+		if main.my_ID == 1:
+			if goalState != null and lever_done and circle_plasma_torches_activated == NUM_PLASMA_TORCHES:
+				goalState = null
+				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
 
 func _on_control_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -116,7 +121,8 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			$Circle_Lever.dragging = false
 			
 			main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-			$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])
+				"Waste Task 2", \
+				$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])
 
 func override():
 	if goalState != null:
@@ -124,4 +130,5 @@ func override():
 		lever_done = true
 		circle_plasma_torches_activated = 6
 		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
+			"Waste Task 2", \
 			$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])

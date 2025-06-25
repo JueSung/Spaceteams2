@@ -33,6 +33,9 @@ func _ready():
 	randomize()
 	main = get_tree().root.get_node("Main")
 	
+	var Moogernator = preload("res://Emergency_Tasks/moogie.tscn").instantiate()
+	add_child(Moogernator)
+	
 	wallSetUp()
 	
 	taskSetUp()

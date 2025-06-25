@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://do8br7prdxib0"]
+
+[ext_resource type="PackedScene" uid="uid://dv1vgp3qsnkq1" path="res://task_location.tscn" id="1_6ddy5"]
+[ext_resource type="Script" uid="uid://dlrdimf3bbwoy" path="res://Emergency_Tasks/moogie.gd" id="1_fhh4l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ddy5"]
+size = Vector2(50, 50)
+
+[node name="Moogie" type="CharacterBody2D"]
+script = ExtResource("1_fhh4l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6ddy5")
+
+[node name="Task_Location" parent="." instance=ExtResource("1_6ddy5")]

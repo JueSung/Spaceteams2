@@ -41,17 +41,20 @@ func button_pressed():
 	state += 1
 	if state == goalState:
 		$Mouse_Blocker.visible = true
-	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), state])
+	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Waste Task 1",\
+		state])
 
 func update_task(info):
-	state = info[1]
-	
-	if main.my_ID == 1 and goalState == state:
-		goalState = null
-		$Mouse_Blocker.visible = true
-		main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+	if info[1] == "Waste Task 1":
+		state = info[2]
+		
+		if main.my_ID == 1 and goalState == state:
+			goalState = null
+			$Mouse_Blocker.visible = true
+			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
 
 func override():
 	if goalState:
 		state = 50
-		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), state])
+		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Waste Task 1",\
+			state])

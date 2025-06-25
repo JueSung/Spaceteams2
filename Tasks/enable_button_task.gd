@@ -56,18 +56,21 @@ func button_pressed():
 	else:
 		print("Disabled!")
 	#first elem vector2 of id, second is state
-	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), state])
+	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Enable Button",
+		state])
 
 #updates the task in server called by update_task in multiplayer_tasks
 #also called by clients from server then sending info out to clients
 func update_task(info):
-	state = info[1]
-	if main.my_ID == 1:
-		if goalState == state:
-			goalState = null
-			main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+	if info[1] == "Enable Button":
+		state = info[2]
+		if main.my_ID == 1:
+			if goalState == state:
+				goalState = null
+				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
 	
 func override():
 	if goalState != null:
 		state = goalState
-		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), state])
+		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Enable Button",
+			state])
