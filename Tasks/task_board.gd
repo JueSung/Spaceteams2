@@ -26,6 +26,9 @@ func _ready():
 	else:
 		set_process(false)
 
+func get_location_sprite():
+	return "task_board"
+
 func set_between_rounds(br):
 	betweenRounds = br
 

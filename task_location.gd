@@ -12,6 +12,16 @@ var player_object = null
 func assign_task(taskk):
 	task = taskk
 	$HUD.add_child(task)
+	
+	$big_button.visible = false
+	$crystal.visible = false
+	$enable_button.visible = false
+	$slime.visible = false
+	$task_board.visible = false
+	$waste1.visible = false
+	$waste2.visible = false
+	
+	get_node(task.get_location_sprite()).visible = true
 
 #id is its index in map list
 func set_ID(id):

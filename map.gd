@@ -29,11 +29,15 @@ var big_button
 var task_locations = []
 var walls = [] #just a list of all the walls
 
+var emergency_tasks = [] #for ailment related stuff, index 0 is always the Moogie
+
 func _ready():
 	randomize()
 	main = get_tree().root.get_node("Main")
 	
 	var Moogernator = preload("res://Emergency_Tasks/moogie.tscn").instantiate()
+	Moogernator.global_position = Vector2(-200, -200)
+	emergency_tasks.append(Moogernator)
 	add_child(Moogernator)
 	
 	wallSetUp()
@@ -50,7 +54,7 @@ func assignTasks(taskBarGoal):
 				task_locations[i][j].task.queue_free()
 				task_locations[i][j].task = null
 	
-	#rn just one task so all get that task lol
+
 	var taskTypes = [] #num of index of scene
 	for i in range(len(task_locations)):
 		taskTypes.append([])

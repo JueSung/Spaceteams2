@@ -16,6 +16,8 @@ static var available_names = ["Parapalexus", "Hydrofibril", "Watermelon", "Trili
 
 var task_name = ""
 
+var info = {}
+
 #needs to run before _ready()
 #rn for name generation, possibly for other stuff later, all rolled tasks need this function
 func setUp():
@@ -33,6 +35,16 @@ func setUp():
 func _ready():
 	
 	main = get_tree().root.get_node("Main")
+	
+	var id = get_parent().get_parent().get_ID()
+	info["color"] = id.x
+	info["index"] = id.y
+	info["type"] = "Enable Button"
+	
+	info["state"] = state
+
+func get_location_sprite():
+	return "enable_button"
 
 #called by assigned task_location object
 func open():
@@ -44,6 +56,7 @@ func close():
 #is being assigned a goal by task_board so set a goalState prob to what state it is not
 func make_goal():
 	goalState = not state
+	
 	if goalState:
 		return "Enable Something Button"
 	else:
@@ -56,14 +69,18 @@ func button_pressed():
 	else:
 		print("Disabled!")
 	#first elem vector2 of id, second is state
-	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Enable Button",
-		state])
+	update_info()
+	main.get_node("Multiplayer_Tasks").send_update_task(info)
+
+#self update on current states for info state
+func update_info():
+	info["state"] = state
 
 #updates the task in server called by update_task in multiplayer_tasks
 #also called by clients from server then sending info out to clients
 func update_task(info):
-	if info[1] == "Enable Button":
-		state = info[2]
+	if info["type"] == "Enable Button":
+		state = info["state"]
 		if main.my_ID == 1:
 			if goalState == state:
 				goalState = null
@@ -72,5 +89,5 @@ func update_task(info):
 func override():
 	if goalState != null:
 		state = goalState
-		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Enable Button",
-			state])
+		update_info()
+		main.get_node("Multiplayer_Tasks").send_update_task(info)

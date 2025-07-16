@@ -4,7 +4,7 @@ class_name Player
 var main = null
 var my_ID
 
-const SPEED = 840 * 3
+const SPEED = 840# * 3
 
 #user input info ---------
 var left = false
@@ -28,6 +28,7 @@ func set_ID(id):
 func _ready():
 	main = get_tree().root.get_node("Main")
 	$HUD/InteractButton.visible = false
+	$HUD/InteractButtonSprite.visible = false
 	
 	if main.my_ID != 1:
 		$CollisionShape2D.disabled = true
@@ -88,12 +89,14 @@ func interactable_area_entered(area):
 	if area is Task_Location and my_ID == main.my_ID:
 		task_locations.append(area)
 		$HUD/InteractButton.visible = true
+		$HUD/InteractButtonSprite.visible = true
 
 func interactable_area_exited(area):
 	if area is Task_Location and my_ID == main.my_ID:
 		task_locations.erase(area)
 		if len(task_locations) == 0:
 			$HUD/InteractButton.visible = false
+			$HUD/InteractButtonSprite.visible = false
 
 #runs on client on own player
 func interact_button_pressed():
@@ -103,6 +106,7 @@ func interact_button_pressed():
 	if main.my_ID == my_ID:
 		if len(task_locations) > 0: #should always be true but for crash avoidance
 			$HUD/InteractButton.visible = false
+			$HUD/InteractButtonSprite.visible = false
 			task_locations[0].open(self)
 			if main.my_ID != 1:
 				main.get_node("Multiplayer_Processing").\
@@ -121,6 +125,7 @@ func close_task():
 	inTask = false
 	if main.my_ID == my_ID:
 		$HUD/InteractButton.visible = true
+		$HUD/InteractButtonSprite.visible = true
 		if main.my_ID != 1:
 			main.get_node("Multiplayer_Processing").\
 			send_to_server_player_function(my_ID, "close_task", [])

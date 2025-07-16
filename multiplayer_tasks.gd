@@ -23,10 +23,15 @@ func send_process_update_task(info):
 func recieve_process_update_task(info):
 	for i in range(len(info)):
 		if my_ID != info[i][0]:
-			get_parent().currMap.task_locations[info[i][1][0].x][info[i][1][0].y].update_task(info[i][1])
+			if info[i][1]["color"] == -1:#emergency type task
+				get_parent().currMap.emergency_tasks[info[i][1]["index"]].update_task(info[i][1])
+			else:#normal task
+				get_parent().currMap.task_locations[info[i][1]["color"]][info[i][1]["index"]].update_task(info[i][1])
 		if my_ID == 1:
-	
-			get_parent().currMap.task_locations[info[i][1][0].x][info[i][1][0].y].update_task(info[i][1])
+			if info[i][1]["color"] == -1:#emergency type task
+				get_parent().currMap.emergency_tasks[info[i][1]["index"]].update_task(info[i][1])
+			else:#normal task
+				get_parent().currMap.task_locations[info[i][1]["color"]][info[i][1]["index"]].update_task(info[i][1])
 			get_parent().states["task"].append(info[i])
 
 #send task_informatino to server and other clients via rpc
@@ -39,9 +44,9 @@ func send_update_task(info):
 @rpc("any_peer", "reliable")
 func recieve_update_task(id, info):
 	if my_ID != id:
-		get_parent().currMap.task_locations[info[0].x][info[0].y].update_task(info)
+		get_parent().currMap.task_locations[info["color"]][info["index"]].update_task(info)
 	if my_ID == 1:
-		get_parent().currMap.task_locations[info[0].x][info[0].y].update_task(info)
+		get_parent().currMap.task_locations[info["color"]][info["index"]].update_task(info)
 		rpc_id(0, "recieve_update_task", id, info)
 
 

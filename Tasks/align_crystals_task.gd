@@ -9,6 +9,7 @@ static var available_names = ["Trilithium", "Iridium", "Rutherfordium", "Big Roc
 
 var task_name = ""
 
+var info = {}
 
 func setUp():
 	if len(available_names) == 0:
@@ -19,6 +20,10 @@ func setUp():
 	available_names.pop_at(ind)
 	
 	return true
+
+#return name of sprite node in task_location, called by assign_task in task_location
+func get_location_sprite():
+	return "crystal"
 
 func _ready():
 	main = get_tree().root.get_node("Main")
@@ -41,6 +46,16 @@ func _ready():
 	$Crystal3.set_process(false)
 	$Crystal4.set_process(false)
 	
+	var id = get_parent().get_parent().get_ID()
+	info["color"] = id.x
+	info["index"] = id.y
+	info["type"] = "Align Crystals"
+	
+	info["state"] = state
+	info["Crys1_pos"] = $Crystal.global_position
+	info["Crys2_pos"] = $Crystal2.global_position
+	info["Crys3_pos"] = $Crystal3.global_position
+	info["Crys4_pos"] = $Crystal4.global_position
 
 #called by assigned task_location object
 func open():
@@ -95,10 +110,9 @@ func make_goal():
 	$Crystal2.global_position.x = int(randf_range(500, 1420))
 	$Crystal3.global_position.x = int(randf_range(500, 1420))
 	$Crystal4.global_position.x = int(randf_range(500, 1420))
+	update_info()
 	
-	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-			"Align Crystals", state,$Crystal.global_position, $Crystal2.global_position,\
-			$Crystal3.global_position, $Crystal4.global_position])
+	main.get_node("Multiplayer_Tasks").send_update_task(info)
 	
 	return "Align Crystals"
 
@@ -120,17 +134,26 @@ func check_alignment():
 
 
 
+func update_info():
+	check_alignment()
+	
+	info["state"] = state
+	info["Crys1_pos"] = $Crystal.global_position
+	info["Crys2_pos"] = $Crystal2.global_position
+	info["Crys3_pos"] = $Crystal3.global_position
+	info["Crys4_pos"] = $Crystal4.global_position
+	
 
 #updates the task in server called by update_task in multiplayer_tasks
 #also called by clients from server then sending info out to clients
 func update_task(info):
-	if info[1] == "Align Crystals":
-		state = info[2]
-		$Crystal.global_position = info[3]
-		$Crystal2.global_position = info[4]
-		$Crystal3.global_position = info[5]
-		$Crystal4.global_position = info[6]
-		if main.my_ID == 1:
+	if info["type"] == "Align Crystals":
+		state = info["state"]
+		$Crystal.global_position = info["Crys1_pos"]
+		$Crystal2.global_position = info["Crys2_pos"]
+		$Crystal3.global_position = info["Crys3_pos"]
+		$Crystal4.global_position = info["Crys4_pos"]
+		if main.my_ID == 1:	
 			if goalState == state:
 				goalState = null
 				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
@@ -144,11 +167,9 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			$Crystal3.dragging = false
 			$Crystal4.dragging = false
 			
-			check_alignment()
+			update_info() #also runs check_alignment()
 			#update other positions
-			main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-			"Align Crystals", state,$Crystal.global_position, $Crystal2.global_position,\
-			$Crystal3.global_position, $Crystal4.global_position])
+			main.get_node("Multiplayer_Tasks").send_update_task(info)
 
 
 func override():
@@ -158,6 +179,6 @@ func override():
 		$Crystal3.global_position.x = 960
 		$Crystal4.global_position.x = 960
 		state = 4
-		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-			"Align Crystals", state,$Crystal.global_position, $Crystal2.global_position,\
-			$Crystal3.global_position, $Crystal4.global_position])
+		update_info()
+		info["state"] = 4 #just overriding stuff yknow
+		main.get_node("Multiplayer_Tasks").send_update_task(info)

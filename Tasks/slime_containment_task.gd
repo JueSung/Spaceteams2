@@ -9,7 +9,7 @@ static var available_names = []
 
 var task_name = ""
 
-
+var info = {}
 
 
 
@@ -25,7 +25,20 @@ func setUp():
 func _ready():
 	main = get_tree().root.get_node("Main")
 	
+	var id = get_parent().get_parent().get_ID()
+	info["color"] = id.x
+	info["index"] = id.y
+	info["type"] = "Slime Containment"
 	
+	info["state"] = state
+	info["Vinfo1"] = $Valve1.get_info()
+	info["Vinfo2"] = $Valve2.get_info()
+	info["Vinfo3"] = $Valve3.get_info()
+	info["Vinfo4"] = $Valve4.get_info()
+	info["Vinfo5"] = $Valve5.get_info()
+
+func get_location_sprite():
+	return "slime"
 
 func open():
 	$Valve1.open()
@@ -50,20 +63,28 @@ func make_goal():
 	$Valve4/RayCast2D.position.y = int(randf_range(100, 650))
 	$Valve5/RayCast2D.position.y = int(randf_range(100, 650))
 	
-	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), \
-		"Slime Containment",state,\
-		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])
+	update_info()
+	main.get_node("Multiplayer_Tasks").send_process_update_task(info)
 	
 	return "Slime stuff"
 
+func update_info():
+	info["state"] = state
+	info["Vinfo1"] = $Valve1.get_info()
+	info["Vinfo2"] = $Valve2.get_info()
+	info["Vinfo3"] = $Valve3.get_info()
+	info["Vinfo4"] = $Valve4.get_info()
+	info["Vinfo5"] = $Valve5.get_info()
+	
+
 func update_task(info):
-	if info[1] == "Slime Containment":
-		state = info[2]
-		$Valve1.update_info(info[3])
-		$Valve2.update_info(info[4])
-		$Valve3.update_info(info[5])
-		$Valve4.update_info(info[6])
-		$Valve5.update_info(info[7])
+	if info["type"] == "Slime Containment":
+		state = info["state"]
+		$Valve1.update_info(info["Vinfo1"])
+		$Valve2.update_info(info["Vinfo2"])
+		$Valve3.update_info(info["Vinfo3"])
+		$Valve4.update_info(info["Vinfo4"])
+		$Valve5.update_info(info["Vinfo5"])
 		if main.my_ID == 1:
 			if goalState == state:
 				goalState = null
@@ -84,14 +105,13 @@ func _process(delta):
 	$Valve3/RayCast2D.is_colliding() and $Valve4/RayCast2D.is_colliding() and\
 	$Valve5/RayCast2D.is_colliding():
 		state = true
-	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), \
-		"Slime Containment",state,\
-		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])
+	
+	update_info()
+	main.get_node("Multiplayer_Tasks").send_process_update_task(info)
 	state = false
 
 
 func override():
 	state = true
-	main.get_node("Multiplayer_Tasks").send_process_update_task([get_parent().get_parent().get_ID(), \
-		"Slime Containment",state,\
-		$Valve1.get_info(), $Valve2.get_info(), $Valve3.get_info(), $Valve4.get_info(), $Valve5.get_info()])
+	update_info()
+	main.get_node("Multiplayer_Tasks").send_process_update_task(info)

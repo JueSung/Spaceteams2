@@ -12,6 +12,8 @@ static var available_names = []
 
 var task_name = "Shred Waste"
 
+var info = {}
+
 
 func setUp():
 	if len(available_names) == 0:
@@ -25,6 +27,16 @@ func _ready():
 	main = get_tree().root.get_node("Main")
 	
 	$Mouse_Blocker.visible = true
+	
+	var id = get_parent().get_parent().get_ID()
+	info["color"] = id.x
+	info["index"] = id.y
+	info["type"] = "Waste Task 1"
+	
+	info["state"] = state
+
+func get_location_sprite():
+	return "waste1"
 
 func open():
 	if goalState != null:
@@ -41,12 +53,15 @@ func button_pressed():
 	state += 1
 	if state == goalState:
 		$Mouse_Blocker.visible = true
-	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Waste Task 1",\
-		state])
+	update_info()
+	main.get_node("Multiplayer_Tasks").send_update_task(info)
+
+func update_info():
+	info["state"] = state
 
 func update_task(info):
-	if info[1] == "Waste Task 1":
-		state = info[2]
+	if info["type"] == "Waste Task 1":
+		state = info["state"]
 		
 		if main.my_ID == 1 and goalState == state:
 			goalState = null
@@ -56,5 +71,5 @@ func update_task(info):
 func override():
 	if goalState:
 		state = 50
-		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(), "Waste Task 1",\
-			state])
+		update_info()
+		main.get_node("Multiplayer_Tasks").send_update_task(info)

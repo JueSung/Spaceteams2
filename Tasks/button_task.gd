@@ -7,6 +7,9 @@ var main #instantiated in ready
 func _ready():
 	main = get_tree().root.get_node("Main")
 
+func get_location_sprite():
+	return "big_button"
+
 #called by assigned task_location object
 func open():
 	pass

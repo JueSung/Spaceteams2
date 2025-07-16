@@ -1,12 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtau08ll77vjy"]
+[gd_scene load_steps=16 format=3 uid="uid://dtau08ll77vjy"]
 
 [ext_resource type="Script" uid="uid://bxtt7ikdfd36t" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://chnrkwck8ogeo" path="res://ST2_sprites_placeholder/interact_button.png" id="2_onrkg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
 size = Vector2(80, 80)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
 radius = 120.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onrkg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i3pqv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hqtel"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sweqy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2hs0m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jxqw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dw050"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b26j0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n7ghd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nvl01"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ivps1"]
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
@@ -15,7 +38,7 @@ script = ExtResource("1_4flbx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(2.2545, 2.4528)
-zoom = Vector2(0.25, 0.25)
+zoom = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sh265")
@@ -35,7 +58,23 @@ offset_top = 926.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxEmpty_onrkg")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_i3pqv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hqtel")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_sweqy")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2hs0m")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_1jxqw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_dw050")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_b26j0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n7ghd")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_nvl01")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ivps1")
 text = "Interact"
+
+[node name="InteractButtonSprite" type="Sprite2D" parent="HUD"]
+position = Vector2(1691, 987)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_onrkg")
 
 [connection signal="area_entered" from="InteractableArea" to="." method="interactable_area_entered"]
 [connection signal="area_exited" from="InteractableArea" to="." method="interactable_area_exited"]

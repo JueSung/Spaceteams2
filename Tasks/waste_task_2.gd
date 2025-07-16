@@ -19,6 +19,8 @@ var lever_done = false
 var circle_plasma_torches_activated = 0
 var activated_torches = [false, false, false, false, false, false] #zero index 
 
+var info = {}
+
 func setUp():
 	if len(available_names) == 0:
 		return false
@@ -36,6 +38,19 @@ func _ready():
 	
 	$Lever.set_process(false)
 	$Circle_Lever.set_process(false)
+	
+	var id = get_parent().get_parent().get_ID()
+	info["color"] = id.x
+	info["index"] = id.y
+	info["type"] = "Waste Task 2"
+	
+	info["lever_global_position"] = $Lever.global_position
+	info["lever_done"] = lever_done
+	info["circle_lever_rotation"] = $Circle_Lever.rotation
+	info["circle_plasma_torches_activated"] = circle_plasma_torches_activated
+
+func get_location_sprite():
+	return "waste2"
 
 func open():
 	if not lever_done:
@@ -61,9 +76,8 @@ func make_goal():
 	lever_done = false
 	circle_plasma_torches_activated = 0
 	activated_torches = [false, false, false, false, false, false]
-	main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-			"Waste Task 2", \
-			$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])
+	update_info()
+	main.get_node("Multiplayer_Tasks").send_update_task(info)
 	
 	return "Plasma Gasification"
 
@@ -100,14 +114,18 @@ func circle_lever_area_entered(area):
 			activated_torches[5] = true
 			circle_plasma_torches_activated += 1
 	
-			
+func update_info():
+	info["lever_global_position"] = $Lever.global_position
+	info["lever_done"] = lever_done
+	info["circle_lever_rotation"] = $Circle_Lever.rotation
+	info["circle_plasma_torches_activated"] = circle_plasma_torches_activated
 
 func update_task(info):
-	if info[1] == "Waste Task 2":
-		$Lever.global_position = info[2]
-		lever_done = info[3]
-		$Circle_Lever.rotation = info[4]
-		circle_plasma_torches_activated = info[5]
+	if info["type"] == "Waste Task 2":
+		$Lever.global_position = info["lever_global_position"]
+		lever_done = info["lever_done"]
+		$Circle_Lever.rotation = info["circle_lever_rotation"]
+		circle_plasma_torches_activated = info["circle_plasma_torches_activated"]
 		
 		if main.my_ID == 1:
 			if goalState != null and lever_done and circle_plasma_torches_activated == NUM_PLASMA_TORCHES:
@@ -120,15 +138,13 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			$Lever.dragging = false
 			$Circle_Lever.dragging = false
 			
-			main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-				"Waste Task 2", \
-				$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])
+			update_info()
+			main.get_node("Multiplayer_Tasks").send_update_task(info)
 
 func override():
 	if goalState != null:
 		$Lever.global_position.y = 550
 		lever_done = true
 		circle_plasma_torches_activated = 6
-		main.get_node("Multiplayer_Tasks").send_update_task([get_parent().get_parent().get_ID(),\
-			"Waste Task 2", \
-			$Lever.global_position, lever_done, $Circle_Lever.rotation, circle_plasma_torches_activated])
+		update_info()
+		main.get_node("Multiplayer_Tasks").send_update_task(info)
