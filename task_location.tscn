@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://pfksmhdqqyeo" path="res://task_location.gd" id="1_vinsi"]
 [ext_resource type="Texture2D" uid="uid://dtfxaeqgc0lh7" path="res://ST2_sprites_placeholder/big_button_location.png" id="2_1brwj"]
 [ext_resource type="Texture2D" uid="uid://ckq51syhsnou2" path="res://ST2_sprites_placeholder/close_button.png" id="2_y28ko"]
-[ext_resource type="Texture2D" uid="uid://cyubbfgi4plp4" path="res://ST2_sprites_placeholder/crystal_location.png" id="3_y28ko"]
 [ext_resource type="Texture2D" uid="uid://byxh7wxg7yuus" path="res://ST2_sprites_placeholder/enable_button_location.png" id="4_vewuy"]
+[ext_resource type="Texture2D" uid="uid://bvsne46631eug" path="res://ST2_sprites_placeholder/TL_crystal.png" id="4_y28ko"]
 [ext_resource type="Texture2D" uid="uid://ddu7bxwh43en3" path="res://ST2_sprites_placeholder/slime_location.png" id="5_p5dyo"]
 [ext_resource type="Texture2D" uid="uid://kapfdgl20688" path="res://ST2_sprites_placeholder/task_board.png" id="6_6umep"]
 [ext_resource type="Texture2D" uid="uid://durrtox7hvhge" path="res://ST2_sprites_placeholder/waste1_location.png" id="7_kwabg"]
@@ -81,6 +81,7 @@ text = "Override
 task"
 
 [node name="close_button" type="Sprite2D" parent="HUD"]
+z_index = 4
 position = Vector2(133, 144)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_y28ko")
@@ -93,9 +94,9 @@ texture = ExtResource("2_1brwj")
 
 [node name="crystal" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -51)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("3_y28ko")
+position = Vector2(-2, -33)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_y28ko")
 
 [node name="enable_button" type="Sprite2D" parent="."]
 visible = false

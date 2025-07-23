@@ -8,6 +8,12 @@ var task = null
 #for client ends, the client that opens task, their respective task will have player object assigned here
 var player_object = null
 
+#resizes the rectangular shape of the particualr task_location
+#dimensions - Vector2(width, height)
+func resize(dimensions):
+	CollisionShape2D.shape = $CollisionShape2D.shape.duplicate() #separates resource so same scene shapes are independent
+	$CollisionShape2D.shape = dimensions
+
 #needs to be ran about at time of instantiation, before allowed to be interacted with by player
 func assign_task(taskk):
 	task = taskk

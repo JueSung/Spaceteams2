@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://yeqtxei3s51k"]
+[gd_scene load_steps=7 format=3 uid="uid://yeqtxei3s51k"]
 
 [ext_resource type="Script" uid="uid://dyodvuu0u0l4g" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://fu4l6qebd41q" path="res://lobby.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dh7d7sn5vvvue" path="res://multiplayer_processing.tscn" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://c752ago5p6ngl" path="res://hud.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://drjpb7tu5rlvd" path="res://multiplayer_tasks.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://bu3so18sk52lk" path="res://menu_hud.gd" id="6_7mycd"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
@@ -78,6 +79,48 @@ offset_bottom = 431.0
 theme_override_font_sizes/font_size = 40
 text = "Waiting to Start ..."
 
+[node name="MenuHUD" type="CanvasLayer" parent="."]
+script = ExtResource("6_7mycd")
+
+[node name="MainMenu" type="Control" parent="MenuHUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Mouse_Blocker" type="Control" parent="MenuHUD/MainMenu"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Close" type="Button" parent="MenuHUD/MainMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Settings" type="Button" parent="MenuHUD/MainMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Quit" type="Button" parent="MenuHUD/MainMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Settings" type="Control" parent="MenuHUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Back" type="Button" parent="MenuHUD/Settings"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
 [connection signal="player_connected" from="Lobby" to="." method="add_player"]
 [connection signal="player_disconnected" from="Lobby" to="." method="player_disconnected"]
 [connection signal="server_disconnected" from="Lobby" to="." method="server_disconnected"]
@@ -86,3 +129,6 @@ text = "Waiting to Start ..."
 [connection signal="pressed" from="HUD/Join_Game" to="." method="join_game"]
 [connection signal="pressed" from="HUD/Start_Game" to="." method="start_game"]
 [connection signal="pressed" from="HUD/ReturnToTitlePage" to="." method="return_to_title_page"]
+[connection signal="pressed" from="MenuHUD/MainMenu/Close" to="MenuHUD" method="close_pressed"]
+[connection signal="pressed" from="MenuHUD/MainMenu/Settings" to="MenuHUD" method="_on_settings_pressed"]
+[connection signal="pressed" from="MenuHUD/Settings/Back" to="MenuHUD" method="settings_back_pressed"]

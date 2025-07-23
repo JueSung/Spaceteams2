@@ -38,6 +38,11 @@ func set_task_bar_goal(tbg):
 	#reset task bar info
 	taskBar = 0
 	$Temp_Task_Bar.text = ""
+	
+	$Task_Bar.value = 0
+	$Task_Bar.max_value = tbg
+	
+	main.get_node("Multiplayer_Tasks").send_set_task_bar(taskBar, $Task_Bar.max_value)
 
 #ran by server
 func add_task():
@@ -87,27 +92,36 @@ func remove_task(index):
 #increment : +1, decrement : -1
 func update_task_bar(crement):
 	taskBar += crement
-	if len($Temp_Task_Bar.text) > 0 and $Temp_Task_Bar.text[0] != "*":
+	
+	"""if len($Temp_Task_Bar.text) > 0 and $Temp_Task_Bar.text[0] != "*":
 		$Temp_Task_Bar.text = ""
 	if crement > 0:
 		$Temp_Task_Bar.text += "*"
 	else:
 		if taskBar != 0:
 			$Temp_Task_Bar.text = $Temp_Task_Bar.text.substr(0, len($Temp_Task_Bar.text)-1)
-	
+	"""
+	if crement > 0:
+		$Task_Bar.value += 1
+	elif $Task_Bar.value > 0:
+		$Task_Bar.value -= 1
 	
 	if taskBar <= 0:
 		taskBar = 0
 	if taskBar >= taskBarGoal:
-		$Temp_Task_Bar.text = "PUSH THE BUTTON"
+		#$Temp_Task_Bar.text = "PUSH THE BUTTON"
+		#make $Temp_Task_Bar glow or something
 		main.task_bar_met()
 	
-	main.get_node("Multiplayer_Tasks").send_set_task_bar(taskBar, $Temp_Task_Bar.text)
+	main.get_node("Multiplayer_Tasks").send_set_task_bar(taskBar, $Task_Bar.max_value)
 
 #ran by clients to update task bar
-func set_task_bar(taskBarr, text):
+func set_task_bar(taskBarr, max_value):
 	taskBar = taskBarr
-	$Temp_Task_Bar.text = text
+	#$Temp_Task_Bar.text = text
+	
+	$Task_Bar.value = taskBarr
+	$Task_Bar.max_value = max_value
 
 #ran by clients adds task based on what server says to add
 func client_add_task(goal, id):

@@ -1,15 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cw3fvwf116uft"]
+[gd_scene load_steps=4 format=3 uid="uid://cw3fvwf116uft"]
 
 [ext_resource type="Script" uid="uid://li4ocx7qw8k6" path="res://Tasks/crystal.gd" id="1_twte7"]
+[ext_resource type="Texture2D" uid="uid://cvq5kfo500cwn" path="res://ST2_sprites_placeholder/crystal.png" id="2_w2kkv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_twte7"]
-size = Vector2(50, 50)
+size = Vector2(120, 50)
 
 [node name="Crystal" type="Area2D"]
 script = ExtResource("1_twte7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-150, -70, 150, -70, 300, 0, 150, 70, -150, 70, -300, 0)
+polygon = PackedVector2Array(-233, -55, 233, -58, 316, 4, 237, 55, -234, 56, -315, 4)
 
 [node name="Alignment_Checker" type="Area2D" parent="."]
 collision_layer = 2
@@ -17,3 +18,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Alignment_Checker"]
 shape = SubResource("RectangleShape2D_twte7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4, 325)
+texture = ExtResource("2_w2kkv")

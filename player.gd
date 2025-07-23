@@ -1,5 +1,6 @@
 extends CharacterBody2D
 class_name Player
+#set camera zoom to .8
 
 var main = null
 var my_ID
