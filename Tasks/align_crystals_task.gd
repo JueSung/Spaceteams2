@@ -41,12 +41,13 @@ func _ready():
 	$RayCast2D3.enabled = false
 	$RayCast2D4.enabled = false
 	
+	set_process(false)
 	$Crystal.set_process(false)
 	$Crystal2.set_process(false)
 	$Crystal3.set_process(false)
 	$Crystal4.set_process(false)
 	
-	var id = get_parent().get_parent().get_ID()
+	var id = get_parent().get_parent().get_parent().get_parent().get_ID()
 	info["color"] = id.x
 	info["index"] = id.y
 	info["type"] = "Align Crystals"
@@ -56,6 +57,12 @@ func _ready():
 	info["Crys2_pos"] = $Crystal2.global_position
 	info["Crys3_pos"] = $Crystal3.global_position
 	info["Crys4_pos"] = $Crystal4.global_position
+	
+	#sprite stuff
+	info["Crys1_aligned"] = $Crystal.get_aligned()
+	info["Crys2_aligned"] = $Crystal2.get_aligned()
+	info["Crys3_aligned"] = $Crystal3.get_aligned()
+	info["Crys4_aligned"] = $Crystal4.get_aligned()
 
 #called by assigned task_location object
 func open():
@@ -73,6 +80,7 @@ func open():
 	$RayCast2D3.enabled = true
 	$RayCast2D4.enabled = true
 	
+	set_process(true)
 	$Crystal.set_process(true)
 	$Crystal2.set_process(true)
 	$Crystal3.set_process(true)
@@ -96,6 +104,7 @@ func close():
 	$RayCast2D3.enabled = false
 	$RayCast2D4.enabled = false
 	
+	set_process(false)
 	$Crystal.set_process(false)
 	$Crystal2.set_process(false)
 	$Crystal3.set_process(false)
@@ -143,6 +152,12 @@ func update_info():
 	info["Crys3_pos"] = $Crystal3.global_position
 	info["Crys4_pos"] = $Crystal4.global_position
 	
+	#sprite stuff
+	info["Crys1_aligned"] = $Crystal.get_aligned()
+	info["Crys2_aligned"] = $Crystal2.get_aligned()
+	info["Crys3_aligned"] = $Crystal3.get_aligned()
+	info["Crys4_aligned"] = $Crystal4.get_aligned()
+	
 
 #updates the task in server called by update_task in multiplayer_tasks
 #also called by clients from server then sending info out to clients
@@ -153,10 +168,18 @@ func update_task(info):
 		$Crystal2.global_position = info["Crys2_pos"]
 		$Crystal3.global_position = info["Crys3_pos"]
 		$Crystal4.global_position = info["Crys4_pos"]
+		
+		#sprite stuff-------------
+		$Crystal.set_aligned(info["Crys1_aligned"])
+		$Crystal2.set_aligned(info["Crys2_aligned"])
+		$Crystal3.set_aligned(info["Crys3_aligned"])
+		$Crystal4.set_aligned(info["Crys4_aligned"])
+		#----------
+		
 		if main.my_ID == 1:	
 			if goalState == state:
 				goalState = null
-				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+				main.currMap.task_board.task_completed(get_parent().get_parent().get_parent().get_parent().ID)
 
 
 func _on_control_gui_input(event: InputEvent) -> void:
@@ -171,6 +194,24 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			#update other positions
 			main.get_node("Multiplayer_Tasks").send_update_task(info)
 
+func _process(delta):
+	if $RayCast2D.is_colliding():
+		$Crystal.set_aligned(true)
+	else:
+		$Crystal.set_aligned(false)
+	if $RayCast2D2.is_colliding():
+		$Crystal2.set_aligned(true)
+	else:
+		$Crystal2.set_aligned(false)
+	if $RayCast2D3.is_colliding():
+		$Crystal3.set_aligned(true)
+	else:
+		$Crystal3.set_aligned(false)
+	if $RayCast2D4.is_colliding():
+		$Crystal4.set_aligned(true)
+	else:
+		$Crystal4.set_aligned(false)
+	
 
 func override():
 	if goalState != null:

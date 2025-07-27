@@ -1,25 +1,149 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfet6uk5ngb4k"]
+[gd_scene load_steps=24 format=3 uid="uid://bfet6uk5ngb4k"]
 
 [ext_resource type="Script" uid="uid://ddrx4ku5n8gn6" path="res://Tasks/waste_1_task_shredder.gd" id="1_4ealp"]
+[ext_resource type="Texture2D" uid="uid://d06gmg2p2xwny" path="res://ST2_sprites_placeholder/waste_task.png" id="2_f46wd"]
+[ext_resource type="Texture2D" uid="uid://q7rirphlpppk" path="res://ST2_sprites_placeholder/floor_left.png" id="3_3b2vk"]
+[ext_resource type="Texture2D" uid="uid://bit50p0gf7i7g" path="res://ST2_sprites_placeholder/wall_left.png" id="3_h2ist"]
+[ext_resource type="Texture2D" uid="uid://l3ewjblwkms1" path="res://ST2_sprites_placeholder/floor_right.png" id="4_h2ist"]
+[ext_resource type="Texture2D" uid="uid://c5qn0psmktxvw" path="res://ST2_sprites_placeholder/wall_right.png" id="4_th5pt"]
+[ext_resource type="Texture2D" uid="uid://cjscn443ar8rp" path="res://ST2_sprites_placeholder/ground_middle.png" id="5_3b2vk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ealp"]
+size = Vector2(50, 700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfhpo"]
+size = Vector2(50, 700)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_4ealp"]
+a = Vector2(-155, 0)
+b = Vector2(155, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_yfhpo"]
+a = Vector2(-155, 0)
+b = Vector2(155, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_s6e61"]
+a = Vector2(-72, 0)
+b = Vector2(72, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h2ist"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_th5pt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qhb6u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vx6ri"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a8nr7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_42gqw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wgu3r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7vwj6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ry1w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ysd64"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uurpt"]
 
 [node name="Waste_1_Task_Shredder" type="Node2D"]
 script = ExtResource("1_4ealp")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("2_f46wd")
+
+[node name="wall_left" type="StaticBody2D" parent="."]
+position = Vector2(574, 384)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_left"]
+shape = SubResource("RectangleShape2D_4ealp")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="wall_left"]
+position = Vector2(392, 155)
+texture = ExtResource("3_h2ist")
+
+[node name="wall_right" type="StaticBody2D" parent="."]
+position = Vector2(1305, 384)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_right"]
+shape = SubResource("RectangleShape2D_yfhpo")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="wall_right"]
+position = Vector2(-348, 155)
+texture = ExtResource("4_th5pt")
+
+[node name="floor_left" type="StaticBody2D" parent="."]
+position = Vector2(712, 735)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor_left"]
+shape = SubResource("SegmentShape2D_4ealp")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="floor_left"]
+position = Vector2(251, -196)
+texture = ExtResource("3_3b2vk")
+
+[node name="floor_right" type="StaticBody2D" parent="."]
+position = Vector2(1165, 735)
+
+[node name="Sprite2D" type="Sprite2D" parent="floor_right"]
+position = Vector2(-207, -196)
+texture = ExtResource("4_h2ist")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor_right"]
+shape = SubResource("SegmentShape2D_yfhpo")
+disabled = true
+
+[node name="floor_middle" type="StaticBody2D" parent="."]
+visible = false
+position = Vector2(939, 735)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor_middle"]
+shape = SubResource("SegmentShape2D_s6e61")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="floor_middle"]
+position = Vector2(21, -151)
+texture = ExtResource("5_3b2vk")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(960, 962)
+texture = ExtResource("2_f46wd")
+region_enabled = true
+region_rect = Rect2(0, 844.323, 1920, 235.677)
+
 [node name="Button" type="Button" parent="."]
-offset_left = 810.0
-offset_top = 800.0
-offset_right = 1110.0
-offset_bottom = 1000.0
+offset_left = 1028.0
+offset_top = 880.0
+offset_right = 1140.0
+offset_bottom = 966.0
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 80
+theme_override_colors/font_color = Color(0.230406, 0.647009, 0.333232, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h2ist")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_th5pt")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qhb6u")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_vx6ri")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a8nr7")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_42gqw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wgu3r")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_7vwj6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_4ry1w")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_ysd64")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uurpt")
 text = "Shred"
 
 [node name="Mouse_Blocker" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 810.0
-offset_top = 800.0
-offset_right = 1110.0
-offset_bottom = 1000.0
+offset_left = 1028.0
+offset_top = 880.0
+offset_right = 1140.0
+offset_bottom = 966.0
 
 [connection signal="pressed" from="Button" to="." method="button_pressed"]

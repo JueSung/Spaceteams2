@@ -17,7 +17,7 @@ func resize(dimensions):
 #needs to be ran about at time of instantiation, before allowed to be interacted with by player
 func assign_task(taskk):
 	task = taskk
-	$HUD.add_child(task)
+	$HUD/SubViewportContainer/Viewport.add_child(task)
 	
 	$big_button.visible = false
 	$crystal.visible = false

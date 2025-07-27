@@ -36,7 +36,7 @@ func _ready():
 	
 	main = get_tree().root.get_node("Main")
 	
-	var id = get_parent().get_parent().get_ID()
+	var id = get_parent().get_parent().get_parent().get_parent().get_ID()
 	info["color"] = id.x
 	info["index"] = id.y
 	info["type"] = "Enable Button"
@@ -84,7 +84,7 @@ func update_task(info):
 		if main.my_ID == 1:
 			if goalState == state:
 				goalState = null
-				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+				main.currMap.task_board.task_completed(get_parent().get_parent().get_parent().get_parent().ID)
 	
 func override():
 	if goalState != null:

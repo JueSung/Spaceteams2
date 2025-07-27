@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dv1vgp3qsnkq1"]
+[gd_scene load_steps=24 format=3 uid="uid://dv1vgp3qsnkq1"]
 
 [ext_resource type="Script" uid="uid://pfksmhdqqyeo" path="res://task_location.gd" id="1_vinsi"]
 [ext_resource type="Texture2D" uid="uid://dtfxaeqgc0lh7" path="res://ST2_sprites_placeholder/big_button_location.png" id="2_1brwj"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://kapfdgl20688" path="res://ST2_sprites_placeholder/task_board.png" id="6_6umep"]
 [ext_resource type="Texture2D" uid="uid://durrtox7hvhge" path="res://ST2_sprites_placeholder/waste1_location.png" id="7_kwabg"]
 [ext_resource type="Texture2D" uid="uid://dro7f8ijyidxs" path="res://ST2_sprites_placeholder/waste2_location.png" id="8_15g2r"]
+[ext_resource type="Texture2D" uid="uid://dn3epjkeqsgwy" path="res://ST2_sprites_placeholder/waste1_location_side.png" id="9_p5dyo"]
+[ext_resource type="Texture2D" uid="uid://brl2jltt4ornn" path="res://ST2_sprites_placeholder/waste1_location_down.png" id="10_6umep"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5j3b"]
 size = Vector2(100, 100)
@@ -42,6 +44,17 @@ script = ExtResource("1_vinsi")
 shape = SubResource("RectangleShape2D_v5j3b")
 
 [node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_target = true
+
+[node name="Viewport" type="SubViewport" parent="HUD/SubViewportContainer"]
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
 
 [node name="Area_catcher" type="Control" parent="HUD"]
 visible = false
@@ -118,9 +131,17 @@ texture = ExtResource("6_6umep")
 
 [node name="waste1" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -51)
-scale = Vector2(0.2, 0.2)
+position = Vector2(-42, 11)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("7_kwabg")
+
+[node name="waste1_side" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("9_p5dyo")
+
+[node name="waste1_down" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("10_6umep")
 
 [node name="waste2" type="Sprite2D" parent="."]
 visible = false

@@ -18,7 +18,7 @@ var betweenRounds = false
 
 func _ready():
 	main = get_tree().root.get_node("Main")
-	task_locations = get_parent().get_parent().get_parent().task_locations
+	task_locations = get_parent().get_parent().get_parent().get_parent().get_parent().task_locations
 	randomize()
 	
 	if main.my_ID == 1:

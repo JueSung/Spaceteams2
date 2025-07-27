@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgy8el75coodu"]
+
+[ext_resource type="Script" uid="uid://c1kx4hbm8ea2n" path="res://Tasks/waste_task_1_trash.gd" id="1_upisg"]
+[ext_resource type="Texture2D" uid="uid://dc7qowqfekxs0" path="res://ST2_sprites_placeholder/trash_object.png" id="2_gwheu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w82vy"]
+size = Vector2(75, 45)
+
+[node name="waste_task1_trash" type="RigidBody2D"]
+script = ExtResource("1_upisg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(74, -8)
+scale = Vector2(0.46, 0.46)
+texture = ExtResource("2_gwheu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w82vy")

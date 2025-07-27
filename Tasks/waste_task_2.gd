@@ -39,7 +39,7 @@ func _ready():
 	$Lever.set_process(false)
 	$Circle_Lever.set_process(false)
 	
-	var id = get_parent().get_parent().get_ID()
+	var id = get_parent().get_parent().get_parent().get_parent().get_ID()
 	info["color"] = id.x
 	info["index"] = id.y
 	info["type"] = "Waste Task 2"
@@ -130,7 +130,7 @@ func update_task(info):
 		if main.my_ID == 1:
 			if goalState != null and lever_done and circle_plasma_torches_activated == NUM_PLASMA_TORCHES:
 				goalState = null
-				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+				main.currMap.task_board.task_completed(get_parent().get_parent().get_parent().get_parent().ID)
 
 func _on_control_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:

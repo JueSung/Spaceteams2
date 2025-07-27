@@ -25,7 +25,7 @@ func setUp():
 func _ready():
 	main = get_tree().root.get_node("Main")
 	
-	var id = get_parent().get_parent().get_ID()
+	var id = get_parent().get_parent().get_parent().get_parent().get_ID()
 	info["color"] = id.x
 	info["index"] = id.y
 	info["type"] = "Slime Containment"
@@ -89,7 +89,7 @@ func update_task(info):
 			if goalState == state:
 				goalState = null
 				state = false
-				main.currMap.task_board.task_completed(get_parent().get_parent().ID)
+				main.currMap.task_board.task_completed(get_parent().get_parent().get_parent().get_parent().ID)
 
 func _on_control_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
