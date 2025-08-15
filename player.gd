@@ -1,6 +1,6 @@
 extends CharacterBody2D
 class_name Player
-#set camera zoom to .8
+#set camera zoom to .7
 
 var main = null
 var my_ID
@@ -110,6 +110,7 @@ func interact_button_pressed():
 			$HUD/InteractButtonSprite.visible = false
 			task_locations[0].open(self)
 			if main.my_ID != 1:
+				#for telling server to stop process of player so they can't move
 				main.get_node("Multiplayer_Processing").\
 				send_to_server_player_function(my_ID, "interact_button_pressed", [])
 	

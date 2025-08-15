@@ -1,44 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy8kntueps2hv"]
+[gd_scene load_steps=3 format=3 uid="uid://dy8kntueps2hv"]
 
 [ext_resource type="Script" uid="uid://bivtldvvw3olr" path="res://surface.gd" id="1_tap8s"]
-[ext_resource type="Texture2D" uid="uid://6k83q55lg53" path="res://ST2_sprites_placeholder/walll_surface.png" id="2_yudna"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ax0b"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_h86ae"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_yudna")
-}],
-"loop": true,
-"name": &"blue",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_yudna")
-}],
-"loop": true,
-"name": &"green",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_yudna")
-}],
-"loop": true,
-"name": &"pink",
-"speed": 0.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_yudna")
-}],
-"loop": true,
-"name": &"yellow",
-"speed": 5.0
-}]
+size = Vector2(400, 400)
 
 [node name="Surface" type="StaticBody2D"]
 collision_layer = 2
@@ -47,9 +12,3 @@ script = ExtResource("1_tap8s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5ax0b")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 6)
-scale = Vector2(0.2, 0.2)
-sprite_frames = SubResource("SpriteFrames_h86ae")
-animation = &"blue"

@@ -47,12 +47,18 @@ var deathTimer = 180 #timer until lose, resets if round passed
 func _ready():
 	#$HUD.show()
 	$Lobby.player_loaded.rpc_id(1)
+	
+	#initialize process to be not run, when set id, id = 1 will have process running
+	set_process(false)
 
 #called by Lobby sets self either to 1 or the randomly generated id if not host
 func set_ID(id):
 	my_ID = id
 	$Multiplayer_Processing.set_ID(id)
 	$Multiplayer_Tasks.set_ID(id)
+	
+	if my_ID == 1:
+		set_process(true)
 	
 	#initialize map
 	var map = MapScene.instantiate()
@@ -116,13 +122,19 @@ func start_game():
 	deathTimer = 180
 	
 	if my_ID == 1:
+		var count = 0
+		for id in player_objects:
+			player_objects[id].global_position = Vector2(300 * sin(count / 8.0 * 2 * PI),\
+			-300 * cos(count / 8.0 * 2 * PI))
+			count += 1
+		
 		$Multiplayer_Processing.start_the_games()
 	
 	#roll tasks
 	if my_ID == 1:
 		currMap.assignTasks(round * 2 + len(players_IDs)) #idk change the num later
 	
-	#initialize players... now at add_player
+	##initialize players... now at add_player
 	#var count = 0
 	#for peer_id in players_IDs:
 	#	var player_instance = PlayerScene.instantiate()
@@ -135,7 +147,6 @@ func start_game():
 	#	else:
 	#		#just yeet them up there, their positions will be updated shortly
 	#		player_instance.position = Vector2(-100, 540)
-
 	#	player_objects[peer_id] = player_instance		
 	#	add_child(player_instance)
 	#	count += 1
@@ -168,19 +179,21 @@ func return_to_title_page():
 func set_player_inputs(id, inputs):
 	players_inputs[id] = inputs
 
-
+#only runs if my_ID == 1
 func _process(delta):
-	if my_ID == 1 and inGame:
+	for id in player_objects: #enhanced for loop
+		if id in players_inputs:
+			player_objects[id].update_inputs(players_inputs[id])
+		
+		player_datas[id] = player_objects[id].get_data()
+	#$Multiplayer_Processing.send_player_info(player_datas)
+	
+	if inGame:
 		deathTimer -= delta
 		if deathTimer <= 0:
 			end_game()
 		
-		for id in player_objects: #enhanced for loop
-			if id in players_inputs:
-				player_objects[id].update_inputs(players_inputs[id])
-			
-			player_datas[id] = player_objects[id].get_data()
-		#$Multiplayer_Processing.send_player_info(player_datas)
+		
 		
 		for key in objects:
 			if is_instance_valid(objects[key]):
@@ -191,18 +204,25 @@ func _process(delta):
 		states["objects_datas"] = objects_datas
 		if is_instance_valid(currMap) and is_instance_valid(currMap.task_board):
 			states["task_elements_times"] = currMap.task_board.get_data()
-		$Multiplayer_Processing.send_states(states)
 		
-		states["task"] = [] #appended to by multiplayer_tasks
 		
 		$Multiplayer_Processing.send_delete_objects(objects_to_be_deleted)
 		objects_to_be_deleted = []
 	
+	$Multiplayer_Processing.send_states(states)
+	states["task"] = [] #appended to by multiplayer_tasks
 
 #only ran on server called by big button pressed to start next round maybe also called by start_game()
 func next_round():
 	round += 1
 	#check if next phase (change later)
+	
+	#bring players back to central room
+	var count = 0
+	for id in player_objects:
+		player_objects[id].global_position = Vector2(200 * sin(count / 8.0 * 2 * PI),\
+		-200 * cos(count / 8.0 * 2 * PI))
+		count += 1
 	
 	#assign_tasks in map already resets the task_locations
 	var task_bar_goal = round * 2 + len(players_IDs) #current formula for determining num of tasks before round end
@@ -228,10 +248,6 @@ func big_button_pressed():
 		$Multiplayer_Tasks.set_big_button_availability(false)
 		task_bar_full = false
 		next_round()
-		
-
-
-
 
 #generally called by multiplayer_processing to get player objects
 func get_player_objects():

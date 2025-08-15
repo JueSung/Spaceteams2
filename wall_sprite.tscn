@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0ntmdhtvnu0g"]
+
+[ext_resource type="Texture2D" uid="uid://b4qtka005ny3v" path="res://ST2_sprites_placeholder/wall_top_down.png" id="1_rdrp0"]
+[ext_resource type="Texture2D" uid="uid://cnl2r2g2i0dd4" path="res://ST2_sprites_placeholder/wall_side.png" id="2_watm1"]
+
+[node name="Wall_sprite" type="Node2D"]
+
+[node name="side" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-6.5, -4)
+scale = Vector2(0.455, 0.455)
+texture = ExtResource("2_watm1")
+
+[node name="top_down" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(8, 8.5)
+scale = Vector2(0.455, 0.3)
+texture = ExtResource("1_rdrp0")

@@ -3,11 +3,12 @@
 [ext_resource type="Script" uid="uid://bxtt7ikdfd36t" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://chnrkwck8ogeo" path="res://ST2_sprites_placeholder/interact_button.png" id="2_onrkg"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
-size = Vector2(80, 80)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
+radius = 80.0
+height = 160.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
-radius = 120.0
+radius = 200.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onrkg"]
 
@@ -38,10 +39,10 @@ script = ExtResource("1_4flbx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(2.2545, 2.4528)
-zoom = Vector2(0.8, 0.8)
+zoom = Vector2(0.7, 0.7)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_sh265")
+shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="InteractableArea" type="Area2D" parent="."]
 collision_layer = 4

@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://brl2jltt4ornn" path="res://ST2_sprites_placeholder/waste1_location_down.png" id="10_6umep"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5j3b"]
-size = Vector2(100, 100)
+size = Vector2(200, 200)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kwabg"]
 
@@ -102,37 +102,37 @@ texture = ExtResource("2_y28ko")
 [node name="big_button" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(-41, -16)
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_1brwj")
 
 [node name="crystal" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(-2, -33)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.45, 0.45)
 texture = ExtResource("4_y28ko")
 
 [node name="enable_button" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -51)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("4_vewuy")
 
 [node name="slime" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -51)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("5_p5dyo")
 
 [node name="task_board" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -51)
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("6_6umep")
 
 [node name="waste1" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(-42, 11)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.45, 0.45)
 texture = ExtResource("7_kwabg")
 
 [node name="waste1_side" type="Sprite2D" parent="."]
@@ -146,7 +146,7 @@ texture = ExtResource("10_6umep")
 [node name="waste2" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, -51)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("8_15g2r")
 
 [connection signal="gui_input" from="HUD/Area_catcher" to="." method="click_outside_task"]

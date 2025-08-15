@@ -112,12 +112,14 @@ position = Vector2(21, -151)
 texture = ExtResource("5_3b2vk")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = 1
 position = Vector2(960, 962)
 texture = ExtResource("2_f46wd")
 region_enabled = true
 region_rect = Rect2(0, 844.323, 1920, 235.677)
 
 [node name="Button" type="Button" parent="."]
+z_index = 2
 offset_left = 1028.0
 offset_top = 880.0
 offset_right = 1140.0

@@ -22,12 +22,12 @@ func _ready():
 		"mouse_position_y" : 0
 	}
 	
-	
 
 func set_ID(id):
 	my_ID = id
 
 func _process(delta):
+	#set inputs------------------------------------------------
 	inputs["left"] = Input.is_action_pressed("left")
 	inputs["right"] = Input.is_action_pressed("right")
 	inputs["up"] = Input.is_action_pressed("up")
@@ -37,13 +37,14 @@ func _process(delta):
 
 	inputs["mouse_position_x"] = get_viewport().get_mouse_position().x
 	inputs["mouse_position_y"] = get_viewport().get_mouse_position().y
+	#-----------------------------------------------------------------------
 	
 	var packet = JSON.stringify(inputs)
 	append_client_to_server_info("inputs", [my_ID, packet])
 	##send_inputs_to_server(packet)
 	
 	#every frame calls send info to server
-	send_info_to_server()
+	process_send_to_server()
 	#resets so info doesn't just get held there forever
 	clientToServerInfo = {}
 
@@ -72,13 +73,13 @@ func recieve_client_inputs(id, packet):
 	get_parent().set_player_inputs(id, inputs)
 
 #generalized send info to server where info is a dictionary updated and reset every frame in main
-func send_info_to_server():
+func process_send_to_server():
 	if my_ID != 1:
-		rpc_id(1, "recieve_info_from_client", clientToServerInfo)
+		rpc_id(1, "process_recieve_from_client", clientToServerInfo)
 	else:
-		recieve_info_from_client(clientToServerInfo)
+		process_recieve_from_client(clientToServerInfo)
 @rpc("any_peer", "unreliable")
-func recieve_info_from_client(info):
+func process_recieve_from_client(info):
 	for key in info:
 		match key:
 			"inputs":
@@ -87,7 +88,7 @@ func recieve_info_from_client(info):
 				get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(info[key])
 			
 			_:
-				print("unknown info here")
+				print("unknown process info sent to server from client sent")
 	
 #from server main send out signal to start games to clients
 func start_the_games():
@@ -132,10 +133,23 @@ func send_states(states):
 
 @rpc("any_peer", "unreliable")
 func recieve_states(states):
-	get_parent().update_player_datas(states["player_datas"])
-	get_parent().update_object_states(states["objects_datas"])
-	get_parent().currMap.task_board.update_states(states["task_elements_times"])
-	get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(states["task"])
+	for key in states:
+		match key:
+			"player_datas":
+				get_parent().update_player_datas(states[key])
+			"objects_datas":
+				get_parent().update_object_states(states[key])
+			"task_elements_times":
+				get_parent().currMap.task_board.update_states(states[key])
+			"task":
+				get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(states[key])
+			_:
+				print("unknown type of state sent server to client \'recieve_states\' in multiplayer_processing")
+	##7/30/2025 was when change was made
+	##get_parent().update_player_datas(states["player_datas"])
+	##get_parent().update_object_states(states["objects_datas"])
+	##get_parent().currMap.task_board.update_states(states["task_elements_times"])
+	##get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(states["task"])
 
 #send info to delete object
 func send_delete_objects(objects_to_be_deleted):
@@ -182,5 +196,6 @@ func _input(event):
 
 #is called by main when game starts
 func is_in_a_game(id):
-	my_ID = id
+	pass
+	#my_ID = id
 	#in_a_game = true
