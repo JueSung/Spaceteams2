@@ -78,11 +78,12 @@ func make_goal():
 	#(re)instantiate trash objects
 	for i in range(len(trash_objects)):
 		trash_objects[i].queue_free()
+		print("O")
 	trash_objects = []
 	for i in range(10):
 		var t = trashObjectScene.instantiate()
 		trash_objects.append(t)
-		t.position = Vector2((1305-574)/10.0 * i + 574, 300)
+		t.position = Vector2(1920/2, 300)
 		t.rotation = 23
 		if main.my_ID != 1:
 			t.get_node("CollisionShape2D").disabled = true
@@ -113,6 +114,7 @@ func button_pressed():
 	update_info()
 	main.get_node("Multiplayer_Tasks").send_update_task(info)
 
+#updates dictionaries/lists and stuff w/ current info for sending out
 func update_info():
 	info["mouse_blocker_visible"] = $Mouse_Blocker.visible
 	info["state"] = state
@@ -130,48 +132,49 @@ func update_info():
 	
 	info["trash_objects_info"] = temp
 
-func update_task(info):
-	if info["type"] == "Waste Task 1":
+func update_task(infoo):
+	if infoo["type"] == "Waste Task 1":
 		if main.my_ID == 1:
-			if info["state"] > state:
-				state = info["state"]
+			if infoo["state"] > state:
+				state = infoo["state"]
 		if main.my_ID != 1:
-			$Mouse_Blocker.visible = info["mouse_blocker_visible"]
-			if info["state"] > state:
-				state = info["state"]
+			$Mouse_Blocker.visible = infoo["mouse_blocker_visible"]
+			if infoo["state"] > state:
+				state = infoo["state"]
 			
-			$wall_left.position = info["wall_left_pos"]
-			$wall_right.position = info["wall_right_pos"]
+			$wall_left.position = infoo["wall_left_pos"]
+			$wall_right.position = infoo["wall_right_pos"]
 			
 			#trash objects----------------------------------
 			#if not same num of trash objects>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-			if len(trash_objects) < len(info["trash_objects_info"]):
+			if len(trash_objects) < len(infoo["trash_objects_info"]):
 				#need to create more trash objects
-				for i in range(len(info["trash_objects_info"]) - len(trash_objects)):
+				for i in range(len(infoo["trash_objects_info"]) - len(trash_objects)):
 					var t = trashObjectScene.instantiate()
-					t.position = Vector2(info["trash_objects_info"][len(trash_objects)][0]) #just to place there, will be reset immediately
+					t.position = infoo["trash_objects_info"][len(trash_objects)][0] #just to place there, will be reset immediately
 					trash_objects.append(t)
 					if main.my_ID != 1:
 						t.get_node("CollisionShape2D").disabled = true
 					add_child(t)
-			elif len(trash_objects) > len(info["trash_objects_info"]):
+			elif len(trash_objects) > len(infoo["trash_objects_info"]):
 				#delete last ones in list until none left
-				for i in range(len(trash_objects) - len(info["trash_objects_info"])):
+				for i in range(len(trash_objects) - len(infoo["trash_objects_info"])):
 					trash_objects[len(trash_objects)-1].queue_free()
+					print(main.my_ID, " OO")
 					trash_objects.remove_at(len(trash_objects)-1)
-			#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+			#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			
 			#set position/rotation of objects
-			for i in range(len(info["trash_objects_info"])):
-				trash_objects[i].position = info["trash_objects_info"][i][0] #pos
-				trash_objects[i].rotation = info["trash_objects_info"][i][1] #rot
+			for i in range(len(infoo["trash_objects_info"])):
+				trash_objects[i].position = infoo["trash_objects_info"][i][0] #pos
+				trash_objects[i].rotation = infoo["trash_objects_info"][i][1] #rot
 			#---------------------------------------------
 		
 		if main.my_ID == 1 and goalState == state:
 			goalState = null
 			$Mouse_Blocker.visible = true
 			$floor_middle/CollisionShape2D.disabled = true
-			var finished_wait = 5
+			finished_wait = 2
 			
 			main.currMap.task_board.task_completed(get_parent().get_parent().get_parent().get_parent().ID)
 
@@ -179,9 +182,14 @@ func _process(delta):
 	#check if should delete trash object----------------------------
 	var ind = len(trash_objects)-1
 	while ind >= 0:
-		if trash_objects[ind].position.y > 1000:
+		if trash_objects[ind].position.y > 1500:
 			trash_objects[ind].queue_free()
+			if main.my_ID != 1:
+				print(trash_objects)
+			print("OOO")
 			trash_objects.remove_at(ind)
+			if main.my_ID != 1:
+				print(trash_objects)
 		ind -= 1
 	#------------------------------------------------
 	
@@ -205,6 +213,7 @@ func _process(delta):
 	
 	
 	#for end of task
+
 	if finished_wait < 0 && finished_wait > -100:
 		for i in range(len(trash_objects)):
 				trash_objects[i].get_node("CollisionShape2D").disabled = true

@@ -20,33 +20,34 @@ func _ready():
 	randomize()
 
 func _process(delta):
-	time_til -= delta
-	
-	if time_til <= 0:
-		#choose action, move (0), or stay put (1)
-		var action = int(randf_range(0, 2))
-		if action == 0 or velocity == Vector2(0,0): #move, also always move if had just been stay put
-			#choose dir
-			velocity.x = randf_range(-1, 1)
-			velocity.y = randf_range(-1, 1)
-			velocity = velocity.normalized()
-			#choose speed
-			var speed = randf_range(700, 900) #player speed is 840 rn
-			velocity *= speed
-			#choose how long to move
-			time_til = randf_range(3, 8)
-		elif action == 1: #stay put
-			velocity = Vector2(0,0)
-			time_til = randf_range(3, 10) #b/t 3 and 10 seconds to stay put
-		else:
-			print("Check line 'var action = int(randf_range(0, 2))'")
+	if main.my_ID == 1:
+		time_til -= delta
 		
-	var v = velocity
-	move_and_slide()
-	velocity = v
-		
-	info["global_position"] = global_position
-	main.get_node("Multiplayer_Tasks").send_process_update_task(info)
+		if time_til <= 0:
+			#choose action, move (0), or stay put (1)
+			var action = int(randf_range(0, 2))
+			if action == 0 or velocity == Vector2(0,0): #move, also always move if had just been stay put
+				#choose dir
+				velocity.x = randf_range(-1, 1)
+				velocity.y = randf_range(-1, 1)
+				velocity = velocity.normalized()
+				#choose speed
+				var speed = randf_range(700, 900) #player speed is 840 rn
+				velocity *= speed
+				#choose how long to move
+				time_til = randf_range(3, 8)
+			elif action == 1: #stay put
+				velocity = Vector2(0,0)
+				time_til = randf_range(3, 10) #b/t 3 and 10 seconds to stay put
+			else:
+				print("Check line 'var action = int(randf_range(0, 2))'")
+			
+		var v = velocity
+		move_and_slide()
+		velocity = v
+			
+		info["global_position"] = global_position
+		main.get_node("Multiplayer_Tasks").send_process_update_task(info)
 	
 
 func open():
@@ -54,8 +55,8 @@ func open():
 func close():
 	pass
 	
-func update_task(info):
-	global_position = info["global_position"]
+func update_task(infoo):
+	global_position = infoo["global_position"]
 
 func override():
 	pass

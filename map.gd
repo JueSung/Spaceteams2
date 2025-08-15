@@ -44,7 +44,7 @@ func _ready():
 	
 	wallSetUp()
 	
-	floorSetUp() #set up sprites for floor
+	#floorSetUp() #set up sprites for floor
 	
 	taskSetUp()
 

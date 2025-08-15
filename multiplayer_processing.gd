@@ -141,7 +141,7 @@ func recieve_states(states):
 				get_parent().update_object_states(states[key])
 			"task_elements_times":
 				get_parent().currMap.task_board.update_states(states[key])
-			"task":
+			"task":	
 				get_parent().get_node("Multiplayer_Tasks").recieve_process_update_task(states[key])
 			_:
 				print("unknown type of state sent server to client \'recieve_states\' in multiplayer_processing")
