@@ -84,4 +84,15 @@ offset_bottom = 841.0
 theme_override_font_sizes/font_size = 80
 text = "60"
 
+[node name="Generate_Task_Button" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 733.0
+offset_top = 931.0
+offset_right = 1187.0
+offset_bottom = 1008.0
+theme_override_font_sizes/font_size = 50
+text = "Generate Tasks (5)"
+
 [connection signal="pressed" from="OverrideButton" to="." method="do_a_thing"]
+[connection signal="pressed" from="Generate_Task_Button" to="." method="generate_tasks"]

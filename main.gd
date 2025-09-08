@@ -29,6 +29,7 @@ var Scenes = {
 }
 
 var inGame = false #if in a game, is true
+var gameMode = 0 #0: normal, 1: chill
 
 var currMap = null
 var sound_percentage = 100
@@ -51,6 +52,15 @@ func _ready():
 	#initialize process to be not run, when set id, id = 1 will have process running
 	set_process(false)
 
+func upon_join(peer_id):
+	set_ID(peer_id)
+	
+	#initialize map upon joining
+	var map = MapScene.instantiate()
+	add_child(map)
+	currMap = map
+
+
 #called by Lobby sets self either to 1 or the randomly generated id if not host
 func set_ID(id):
 	my_ID = id
@@ -59,11 +69,9 @@ func set_ID(id):
 	
 	if my_ID == 1:
 		set_process(true)
-	
-	#initialize map
-	var map = MapScene.instantiate()
-	add_child(map)
-	currMap = map
+
+func get_gameMode():
+	return gameMode
 
 #recieved from lobby _register_player when player joins both server and clients
 #also already runs for self
@@ -103,7 +111,6 @@ func host_game():
 	$Lobby.create_game()
 	$HUD.host_game()
 	
-	
 
 func join_game():
 	if get_node("HUD").get_node("IP").text == "": #needs to enter ip/port info still
@@ -114,9 +121,20 @@ func join_game():
 		var port = $HUD.get_node("Port").text
 		$Lobby.join_game(ip, port)
 		
-		
 
-func start_game():
+#normal gamemode button signal calls start_game
+func start_game_normal_button():
+	start_game(0)
+
+#chill gamemode button signal calls start_game
+func start_game_chill_button():
+	start_game(1)
+
+# * mode = type of gamemode:
+# * mode == 0: normal mode
+# * mode == 1: chill mode #tasks rolled by player as desired and highlighted at sites
+func start_game(mode):
+	gameMode = mode
 	$HUD.start_game()
 	inGame = true
 	deathTimer = 180
@@ -128,11 +146,17 @@ func start_game():
 			-300 * cos(count / 8.0 * 2 * PI))
 			count += 1
 		
-		$Multiplayer_Processing.start_the_games()
+		$Multiplayer_Processing.start_the_games(mode)
 	
-	#roll tasks
-	if my_ID == 1:
-		currMap.assignTasks(round * 2 + len(players_IDs)) #idk change the num later
+	currMap.start_game()
+	
+	if mode == 0:
+		#roll tasks
+		if my_ID == 1:
+			currMap.assignTasks(round * 2 + len(players_IDs)) #idk change the num later
+	else:
+		currMap.assignTasks(0)
+	
 	
 	##initialize players... now at add_player
 	#var count = 0
@@ -188,7 +212,7 @@ func _process(delta):
 		player_datas[id] = player_objects[id].get_data()
 	#$Multiplayer_Processing.send_player_info(player_datas)
 	
-	if inGame:
+	if inGame and gameMode == 0:
 		deathTimer -= delta
 		if deathTimer <= 0:
 			end_game()

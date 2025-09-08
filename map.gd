@@ -44,8 +44,9 @@ func _ready():
 	
 	wallSetUp()
 	
-	#floorSetUp() #set up sprites for floor
-	
+	floorSetUp() #set up sprites for floor
+
+func start_game(): #called when game starts
 	taskSetUp()
 
 #assigns tasks to all task_locations

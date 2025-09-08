@@ -78,7 +78,6 @@ func make_goal():
 	#(re)instantiate trash objects
 	for i in range(len(trash_objects)):
 		trash_objects[i].queue_free()
-		print("O")
 	trash_objects = []
 	for i in range(10):
 		var t = trashObjectScene.instantiate()
@@ -160,7 +159,6 @@ func update_task(infoo):
 				#delete last ones in list until none left
 				for i in range(len(trash_objects) - len(infoo["trash_objects_info"])):
 					trash_objects[len(trash_objects)-1].queue_free()
-					print(main.my_ID, " OO")
 					trash_objects.remove_at(len(trash_objects)-1)
 			#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			
@@ -184,12 +182,7 @@ func _process(delta):
 	while ind >= 0:
 		if trash_objects[ind].position.y > 1500:
 			trash_objects[ind].queue_free()
-			if main.my_ID != 1:
-				print(trash_objects)
-			print("OOO")
 			trash_objects.remove_at(ind)
-			if main.my_ID != 1:
-				print(trash_objects)
 		ind -= 1
 	#------------------------------------------------
 	

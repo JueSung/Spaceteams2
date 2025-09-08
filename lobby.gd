@@ -7,7 +7,7 @@ signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 
-signal set_ID(peer_id)
+signal upon_join(peer_id) #also runs set_id
 
 var server_ip = "localhost"
 var server_port = 8080
@@ -59,7 +59,8 @@ func create_game():
 	print("Server started on port", server_port)
 	
 	players[1] = player_info
-	set_ID.emit(1)
+	
+	upon_join.emit(1) # also calls set_id, id = 1
 	player_connected.emit(1, player_info)
 
 func join_game(ip, port):
@@ -126,7 +127,7 @@ func _on_player_disconnected(id):
 
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
-	set_ID.emit(peer_id)
+	upon_join.emit(peer_id) ##used to be set_id
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 

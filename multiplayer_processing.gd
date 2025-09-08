@@ -91,14 +91,14 @@ func process_recieve_from_client(info):
 				print("unknown process info sent to server from client sent")
 	
 #from server main send out signal to start games to clients
-func start_the_games():
+func start_the_games(mode):
 	#peer id 0 means all peers besides self
-	rpc_id(0, "recieve_start_game")
+	rpc_id(0, "recieve_start_game", mode)
 
 #recieve start game signal from server, tells client main to start game
 @rpc("any_peer", "reliable")
-func recieve_start_game():
-	get_parent().start_game()
+func recieve_start_game(mode):
+	get_parent().start_game(mode)
 
 #recieve update information for a particular object based on some id string thing
 

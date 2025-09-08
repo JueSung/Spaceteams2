@@ -45,6 +45,14 @@ offset_bottom = 375.0
 theme_override_font_sizes/font_size = 50
 text = "Start Game"
 
+[node name="Chill_Mode_Start" type="Button" parent="HUD"]
+offset_left = 52.0
+offset_top = 573.0
+offset_right = 450.0
+offset_bottom = 650.0
+theme_override_font_sizes/font_size = 50
+text = "Chill Game Start"
+
 [node name="ReturnToTitlePage" type="Button" parent="HUD"]
 offset_left = 288.0
 offset_top = 459.0
@@ -124,10 +132,11 @@ offset_bottom = 8.0
 [connection signal="player_connected" from="Lobby" to="." method="add_player"]
 [connection signal="player_disconnected" from="Lobby" to="." method="player_disconnected"]
 [connection signal="server_disconnected" from="Lobby" to="." method="server_disconnected"]
-[connection signal="set_ID" from="Lobby" to="." method="set_ID"]
+[connection signal="upon_join" from="Lobby" to="." method="upon_join"]
 [connection signal="pressed" from="HUD/Host_Game" to="." method="host_game"]
 [connection signal="pressed" from="HUD/Join_Game" to="." method="join_game"]
-[connection signal="pressed" from="HUD/Start_Game" to="." method="start_game"]
+[connection signal="pressed" from="HUD/Start_Game" to="." method="start_game_normal_button"]
+[connection signal="pressed" from="HUD/Chill_Mode_Start" to="." method="start_game_chill_button"]
 [connection signal="pressed" from="HUD/ReturnToTitlePage" to="." method="return_to_title_page"]
 [connection signal="pressed" from="MenuHUD/MainMenu/Close" to="MenuHUD" method="close_pressed"]
 [connection signal="pressed" from="MenuHUD/MainMenu/Settings" to="MenuHUD" method="_on_settings_pressed"]

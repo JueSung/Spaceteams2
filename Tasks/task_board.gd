@@ -2,6 +2,7 @@ extends Control
 class_name TaskBoard
 
 var main #instantiated in ready
+var gameMode #based on main
 var TES = preload("res://Tasks/task_board_element.tscn")
 
 var taskBar = 0 #value is the progress to end depending on what main defines as task_bar_goal
@@ -18,12 +19,17 @@ var betweenRounds = false
 
 func _ready():
 	main = get_tree().root.get_node("Main")
+	gameMode = main.get_gameMode()
 	task_locations = get_parent().get_parent().get_parent().get_parent().get_parent().task_locations
 	randomize()
 	
 	if main.my_ID == 1:
 		set_process(true)
 	else:
+		set_process(false)
+		
+	if gameMode == 1:
+		$Generate_Task_Button.visible = true
 		set_process(false)
 
 func get_location_sprite():
@@ -44,6 +50,14 @@ func set_task_bar_goal(tbg):
 	
 	main.get_node("Multiplayer_Tasks").send_set_task_bar(taskBar, $Task_Bar.max_value)
 
+##CHILL MODE FUNCTION ---------------------------------------
+#called by button in task_board for chill mode to generate certain amount of tasks (5) may change later
+func generate_tasks():
+	for i in range(5):
+		add_task()
+
+##-----------------------------------------------------------
+
 #ran by server
 func add_task():
 	#choose a random task_location
@@ -52,9 +66,10 @@ func add_task():
 	var i
 	var j
 	while true:
-		i = int(randf_range(0, len(task_locations)))
-		j = int(randf_range(0, len(task_locations[i])))
+		i = int(randf_range(0, len(task_locations))) #color
+		j = int(randf_range(0, len(task_locations[i]))) #specific location within color area
 		task_location = task_locations[i][j]
+		print(task_location)
 		if task_location.task.goalState == null:
 			break
 	var goal = task_location.task.make_goal() #goal is string to put on msg, later will be for which sprite ig
@@ -84,13 +99,15 @@ func remove_task(index):
 	t.queue_free()
 	if main.my_ID == 1:
 		main.get_node("Multiplayer_Tasks").send_remove_board_task(index)
-		if not betweenRounds:
+		if not betweenRounds and gameMode != 1:
 			add_task()
 
 #ran by server
 #increment when task completed, decrement when task expires
 #increment : +1, decrement : -1
 func update_task_bar(crement):
+	if gameMode == 1: # returns immediately if gameMode is on chill bc task bark not applicable
+		return
 	taskBar += crement
 	
 	"""if len($Temp_Task_Bar.text) > 0 and $Temp_Task_Bar.text[0] != "*":
@@ -161,6 +178,7 @@ func update_states(task_timess):
 		$Label4.text = str(int(task_times[3]))
 
 #only ran on server, mostly for task element timers
+#automatically set to not run if gameMode is  chill
 func _process(delta):
 	for i in len(task_times):
 		var j = len(task_times)-1-i
